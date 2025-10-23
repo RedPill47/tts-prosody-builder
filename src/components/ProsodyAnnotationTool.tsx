@@ -5,7 +5,7 @@ const ProsodyAnnotationTool = () => {
   const [activeTab, setActiveTab] = useState('presets');
   const [selectedPreset, setSelectedPreset] = useState('authoritative');
   // Removed unused state
-  const [customProsody, setCustomProsody] = useState({
+  // const [customProsody, setCustomProsody] = useState({
     pitch: 0,
     pitchRange: 0,
     rate: 0,
@@ -16,7 +16,7 @@ const ProsodyAnnotationTool = () => {
     "The Premium Card has a €49 annual fee, offers 1% cashback on all purchases, and includes comprehensive travel insurance with emergency assistance worldwide."
   );
   // Removed unused state
-  const [emphasisWords, setEmphasisWords] = useState([]);
+  // const [emphasisWords, setEmphasisWords] = useState([]);
 
   // Prosodic presets based on literature
   const presets = {
