@@ -1,14 +1,9 @@
-import React, { useState } from 'react';
-import { Eye, CheckSquare, AlertTriangle, Download, Plus, Trash2, Copy } from 'lucide-react';
+import { useState } from 'react';
+import { Eye, CheckSquare, AlertTriangle, Download, Copy } from 'lucide-react';
 
 const AttentionCheckGenerator = () => {
   const [selectedScenario, setSelectedScenario] = useState('banking');
-  const [customChecks, setCustomChecks] = useState([]);
-  const [newCheck, setNewCheck] = useState({
-    question: '',
-    correctAnswer: '',
-    distractors: ['', '', '']
-  });
+  // Removed unused state variables
 
   const scenarios = {
     banking: {
@@ -286,14 +281,14 @@ const AttentionCheckGenerator = () => {
     }
   };
 
-  const generateCheckBattery = (scenario) => {
-    const checks = scenarios[scenario].checks;
+  const generateCheckBattery = (scenario: string) => {
+    const checks = (scenarios as any)[scenario].checks;
     let battery = `ATTENTION & COMPREHENSION CHECK BATTERY
-Scenario: ${scenarios[scenario].name}
+Scenario: ${(scenarios as any)[scenario].name}
 ==========================================
 
 COMPREHENSION CHECKS (Post-Stimulus)
-${checks.comprehension.map((check, idx) => `
+${checks.comprehension.map((check: any, idx: number) => `
 ${idx + 1}. ${check.question}
    Correct Answer: ${check.correctAnswer}
    Distractors: ${check.distractors.join(', ')}
@@ -302,7 +297,7 @@ ${idx + 1}. ${check.question}
 `).join('')}
 
 ATTENTION CHECKS (Interspersed)
-${checks.attention.map((check, idx) => `
+${checks.attention.map((check: any, idx: number) => `
 ${idx + 1}. ${check.question}
    Correct Answer: ${check.correctAnswer}
    Options: ${check.distractors.join(', ')}
@@ -311,7 +306,7 @@ ${idx + 1}. ${check.question}
 `).join('')}
 
 MANIPULATION CHECKS (Post-Stimulus)
-${checks.manipulation.map((check, idx) => `
+${checks.manipulation.map((check: any, idx: number) => `
 ${idx + 1}. ${check.question}
    Scale: ${check.scale}
    Anchors: ${check.anchors.join(' → ')}
@@ -334,7 +329,7 @@ RECOMMENDED PLACEMENT
   };
 
   const exportBattery = () => {
-    const allBatteries = Object.keys(scenarios).map(key => 
+    const allBatteries = Object.keys(scenarios).map((key: string) => 
       generateCheckBattery(key)
     ).join('\n\n' + '='.repeat(80) + '\n\n');
 
@@ -346,11 +341,11 @@ RECOMMENDED PLACEMENT
     a.click();
   };
 
-  const copyToClipboard = (text) => {
+  const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
   };
 
-  const currentScenario = scenarios[selectedScenario];
+    const currentScenario = (scenarios as any)[selectedScenario];
 
   return (
     <div className="w-full max-w-6xl mx-auto p-6 bg-gray-50">
@@ -370,7 +365,7 @@ RECOMMENDED PLACEMENT
       <div className="bg-white rounded-lg shadow-md p-4 mb-6">
         <h3 className="font-semibold text-gray-800 mb-3">Select Scenario:</h3>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
-          {Object.keys(scenarios).map(key => (
+          {Object.keys(scenarios).map((key: string) => (
             <button
               key={key}
               onClick={() => setSelectedScenario(key)}
@@ -390,7 +385,7 @@ RECOMMENDED PLACEMENT
       <div className="bg-white rounded-lg shadow-md p-6 mb-6">
         <h2 className="text-xl font-bold text-gray-800 mb-4">Check Types Reference</h2>
         <div className="grid md:grid-cols-3 gap-4">
-          {Object.entries(checkTypeDescriptions).map(([key, type]) => (
+          {Object.entries(checkTypeDescriptions).map(([key, type]: [string, any]) => (
             <div key={key} className={`bg-${type.color}-50 border-l-4 border-${type.color}-400 p-3 rounded`}>
               <div className="flex items-center gap-2 mb-1">
                 <span className="text-2xl">{type.icon}</span>
@@ -432,7 +427,7 @@ RECOMMENDED PLACEMENT
             </span>
           </div>
           <div className="space-y-3">
-            {currentScenario.checks.comprehension.map((check, idx) => (
+            {currentScenario.checks.comprehension.map((check: any, idx: number) => (
               <div key={idx} className="border rounded-lg p-4 bg-blue-50">
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex-1">
@@ -457,7 +452,7 @@ RECOMMENDED PLACEMENT
                     }`}>
                       {check.critical ? 'Critical' : 'Optional'}
                     </span>
-                    <span className="text-xs text-gray-500">{checkTypeDescriptions[check.type].icon} {check.type}</span>
+                    <span className="text-xs text-gray-500">{(checkTypeDescriptions as any)[check.type].icon} {check.type}</span>
                   </div>
                 </div>
               </div>
@@ -475,7 +470,7 @@ RECOMMENDED PLACEMENT
             </span>
           </div>
           <div className="space-y-3">
-            {currentScenario.checks.attention.map((check, idx) => (
+            {currentScenario.checks.attention.map((check: any, idx: number) => (
               <div key={idx} className="border rounded-lg p-4 bg-orange-50">
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex-1">
@@ -500,7 +495,7 @@ RECOMMENDED PLACEMENT
                     }`}>
                       {check.critical ? 'Exclude if failed' : 'Monitor only'}
                     </span>
-                    <span className="text-xs text-gray-500">{checkTypeDescriptions[check.type].icon} {check.type}</span>
+                    <span className="text-xs text-gray-500">{(checkTypeDescriptions as any)[check.type].icon} {check.type}</span>
                   </div>
                 </div>
               </div>
@@ -518,7 +513,7 @@ RECOMMENDED PLACEMENT
             </span>
           </div>
           <div className="space-y-3">
-            {currentScenario.checks.manipulation.map((check, idx) => (
+            {currentScenario.checks.manipulation.map((check: any, idx: number) => (
               <div key={idx} className="border rounded-lg p-4 bg-purple-50">
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex-1">
@@ -544,7 +539,7 @@ RECOMMENDED PLACEMENT
                     }`}>
                       {check.critical ? 'Must differ ≥1 SD' : 'Secondary'}
                     </span>
-                    <span className="text-xs text-gray-500">{checkTypeDescriptions[check.type].icon} {check.type}</span>
+                    <span className="text-xs text-gray-500">{(checkTypeDescriptions as any)[check.type].icon} {check.type}</span>
                   </div>
                 </div>
               </div>
