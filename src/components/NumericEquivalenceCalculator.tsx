@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Calculator, AlertTriangle, CheckCircle, Plus, Trash2, TrendingUp } from 'lucide-react';
-import { saveToStorage, loadFromStorage, createAutoSave } from '../utils/persistence';
+import { useState, useEffect } from 'react';
+import { Calculator, AlertTriangle, CheckCircle, TrendingUp } from 'lucide-react';
+import { loadFromStorage, createAutoSave } from '../utils/persistence';
 
 const NumericEquivalenceCalculator = () => {
   const [activeScenario, setActiveScenario] = useState('banking');
@@ -170,11 +170,11 @@ const NumericEquivalenceCalculator = () => {
     }
   };
 
-  const calculateValue = (params, formula) => {
+  const calculateValue = (params: any, formula: any) => {
     try {
       // Create a safe evaluation context
       const context = { ...params };
-      const result = eval(formula.replace(/([a-zA-Z_][a-zA-Z0-9_]*)/g, (match) => {
+      const result = eval(formula.replace(/([a-zA-Z_][a-zA-Z0-9_]*)/g, (match: any) => {
         return context.hasOwnProperty(match) ? context[match] : match;
       }));
       return parseFloat(result.toFixed(2));
@@ -183,7 +183,7 @@ const NumericEquivalenceCalculator = () => {
     }
   };
 
-  const analyzeEquivalence = (scenario) => {
+  const analyzeEquivalence = (scenario: any) => {
     const valueA = calculateValue(scenario.optionA.params, scenario.optionA.formula);
     const valueB = calculateValue(scenario.optionB.params, scenario.optionB.formula);
     
@@ -209,14 +209,14 @@ const NumericEquivalenceCalculator = () => {
     };
   };
 
-  const getMedianFromRealWorld = (data, field) => {
-    const values = data.map(d => d[field]).filter(v => v !== undefined).sort((a, b) => a - b);
+  const getMedianFromRealWorld = (data: any, field: any) => {
+    const values = data.map((d: any) => d[field]).filter((v: any) => v !== undefined).sort((a: any, b: any) => a - b);
     const mid = Math.floor(values.length / 2);
     return values.length % 2 === 0 ? (values[mid - 1] + values[mid]) / 2 : values[mid];
   };
 
   const startEditing = () => {
-    const currentScenario = scenarios[activeScenario];
+    const currentScenario = (scenarios as any)[activeScenario];
     setEditableParams({
       optionA: { ...currentScenario.optionA.params },
       optionB: { ...currentScenario.optionB.params }
@@ -260,19 +260,19 @@ const NumericEquivalenceCalculator = () => {
     setEditableParams({});
   };
 
-  const updateParam = (option, param, value) => {
+  const updateParam = (option: any, param: any, value: any) => {
     setEditableParams(prev => ({
       ...prev,
       [option]: {
-        ...prev[option],
+        ...(prev as any)[option],
         [param]: parseFloat(value) || 0
       }
     }));
   };
 
   const getCurrentParams = (option: string) => {
-    if (isEditing && editableParams[option]) {
-      return editableParams[option];
+    if (isEditing && (editableParams as any)[option]) {
+      return (editableParams as any)[option];
     }
     if (scenariosData && scenariosData[activeScenario]) {
       return scenariosData[activeScenario][option]?.params;
@@ -325,7 +325,7 @@ const NumericEquivalenceCalculator = () => {
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
             >
-              {scenarios[key].name.split(' ')[0]}
+              {(scenarios as any)[key].name.split(' ')[0]}
             </button>
           ))}
         </div>
@@ -380,13 +380,13 @@ const NumericEquivalenceCalculator = () => {
                     <input
                       type="number"
                       step="0.01"
-                      value={value}
+                      value={String(value)}
                       onChange={(e) => updateParam('optionA', key, e.target.value)}
                       className="w-20 px-2 py-1 border rounded text-sm font-mono"
                       aria-label={`${key} for Option A`}
                     />
                   ) : (
-                    <span className="font-mono font-semibold">{value}</span>
+                    <span className="font-mono font-semibold">{String(value)}</span>
                   )}
                 </div>
               ))}
@@ -417,13 +417,13 @@ const NumericEquivalenceCalculator = () => {
                     <input
                       type="number"
                       step="0.01"
-                      value={value}
+                      value={String(value)}
                       onChange={(e) => updateParam('optionB', key, e.target.value)}
                       className="w-20 px-2 py-1 border rounded text-sm font-mono"
                       aria-label={`${key} for Option B`}
                     />
                   ) : (
-                    <span className="font-mono font-semibold">{value}</span>
+                    <span className="font-mono font-semibold">{String(value)}</span>
                   )}
                 </div>
               ))}
@@ -486,11 +486,11 @@ const NumericEquivalenceCalculator = () => {
             <div className="mt-4 bg-white rounded p-4">
               <h4 className="font-semibold text-gray-800 mb-2">Suggested Adjustments:</h4>
               <ul className="text-sm space-y-1">
-                {analysis.percentDiff > 5 && (
+                {Number(analysis.percentDiff) > 5 && (
                   <>
                     <li>• Option {analysis.higherOption} is {analysis.percentDiff}% more expensive than Option {analysis.lowerOption}</li>
-                    <li>• To balance: adjust parameters in Option {analysis.higherOption} to reduce cost by €{(analysis.difference / 2).toFixed(2)}</li>
-                    <li>• Or: increase Option {analysis.lowerOption} cost by €{(analysis.difference / 2).toFixed(2)}</li>
+                    <li>• To balance: adjust parameters in Option {analysis.higherOption} to reduce cost by €{((Number(analysis.difference) || 0) / 2).toFixed(2)}</li>
+                    <li>• Or: increase Option {analysis.lowerOption} cost by €{((Number(analysis.difference) || 0) / 2).toFixed(2)}</li>
                   </>
                 )}
               </ul>
@@ -522,13 +522,13 @@ const NumericEquivalenceCalculator = () => {
               </tr>
             </thead>
             <tbody>
-              {currentScenario.realWorldData.map((item, idx) => (
+              {currentScenario.realWorldData.map((item: any, idx: number) => (
                 <tr key={idx} className="border-t hover:bg-gray-50">
                   <td className="px-4 py-2 font-medium">{item.source}</td>
                   {Object.entries(item)
                     .filter(([key]) => key !== 'source')
                     .map(([key, value]) => (
-                      <td key={key} className="px-4 py-2 font-mono">{value}</td>
+                      <td key={key} className="px-4 py-2 font-mono">{String(value)}</td>
                     ))}
                 </tr>
               ))}

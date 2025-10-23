@@ -375,7 +375,7 @@ RECOMMENDED PLACEMENT
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
             >
-              {scenarios[key].name.split(' ')[0]}
+              {(scenarios as any)[key].name.split(' ')[0]}
             </button>
           ))}
         </div>

@@ -315,7 +315,7 @@ ${idx + 1}. [${item.type.toUpperCase()}] ${item.content}
 ${'='.repeat(80)}
 
 FILLER PROMPTS LIBRARY
-${Object.entries(fillerCategories).map(([key, cat]: [string, any]) => `
+${Object.entries(fillerCategories).map(([, cat]: [string, any]) => `
 ${cat.icon} ${cat.name}
 ${'-'.repeat(40)}
 ${cat.prompts.map((p: any, idx: number) => `
