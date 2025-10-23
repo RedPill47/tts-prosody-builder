@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { AlertCircle, CheckCircle, Edit, Save, X } from 'lucide-react';
-import { saveToStorage, loadFromStorage, createAutoSave } from '../utils/persistence';
+import { loadFromStorage, createAutoSave } from '../utils/persistence';
 
 const ScenarioRefinementTool = () => {
   const [scenarios, setScenarios] = useState([
@@ -91,11 +91,12 @@ const ScenarioRefinementTool = () => {
   // Load data on component mount
   useEffect(() => {
     const savedData = loadFromStorage();
-    if (savedData.scenarioRefinement?.scenarios) {
-      setScenarios(savedData.scenarioRefinement.scenarios);
+    const refinement = savedData.scenarioRefinement || {};
+    if (Array.isArray(refinement.scenarios)) {
+      setScenarios(refinement.scenarios);
     }
-    if (savedData.scenarioRefinement?.activeTab) {
-      setActiveTab(savedData.scenarioRefinement.activeTab);
+    if (typeof refinement.activeTab === "string") {
+      setActiveTab(refinement.activeTab);
     }
   }, []);
 
@@ -107,9 +108,9 @@ const ScenarioRefinementTool = () => {
     });
   }, [scenarios, activeTab]);
 
-  const analyzeText = (text) => {
-    const sentences = text.split('.').filter(s => s.trim().length > 0);
-    const words = text.split(/\s+/).filter(w => w.length > 0);
+  const analyzeText = (text: string) => {
+    const sentences = text.split('.').filter((s: string) => s.trim().length > 0);
+    const words = text.split(/\s+/).filter((w: string) => w.length > 0);
     const numbers = (text.match(/\d+(\.\d+)?/g) || []).length;
     
     // Check for persuasive language
@@ -128,15 +129,15 @@ const ScenarioRefinementTool = () => {
     };
   };
 
-  const compareOptions = (optionA, optionB) => {
+  const compareOptions = (optionA: any, optionB: any) => {
     const statsA = analyzeText(optionA.text);
     const statsB = analyzeText(optionB.text);
     
     const sentenceDiff = Math.abs(statsA.sentences - statsB.sentences);
     const wordDiff = Math.abs(statsA.words - statsB.words);
-    const wordDiffPercent = ((wordDiff / Math.max(statsA.words, statsB.words)) * 100).toFixed(1);
+    const wordDiffPercent = (wordDiff / Math.max(statsA.words, statsB.words)) * 100;
     const charDiff = Math.abs(statsA.characters - statsB.characters);
-    const charDiffPercent = ((charDiff / Math.max(statsA.characters, statsB.characters)) * 100).toFixed(1);
+    const charDiffPercent = (charDiff / Math.max(statsA.characters, statsB.characters)) * 100;
     const numberDiff = Math.abs(statsA.numbers - statsB.numbers);
 
     const balanced = 
@@ -194,7 +195,7 @@ const ScenarioRefinementTool = () => {
     setEditedText({ optionA: "", optionB: "" });
   };
 
-  const updateStatus = (id, status, notes = "") => {
+  const updateStatus = (id: any, status: any, notes = "") => {
     setScenarios(scenarios.map(s => 
       s.id === id ? { ...s, status, notes } : s
     ));

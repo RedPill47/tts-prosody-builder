@@ -9,35 +9,35 @@ const QualityChecklistTool = () => {
       name: "Banking - Credit Card",
       domain: "banking",
       status: "draft",
-      checks: {}
+      checks: {} as { [key: string]: { [key: string]: string } }
     },
     {
       id: 2,
       name: "Insurance - Health Plan",
       domain: "insurance",
       status: "draft",
-      checks: {}
+      checks: {} as { [key: string]: { [key: string]: string } }
     },
     {
       id: 3,
       name: "Mobile - Data Plan",
       domain: "mobile",
       status: "draft",
-      checks: {}
+      checks: {} as { [key: string]: { [key: string]: string } }
     },
     {
       id: 4,
       name: "Energy - Tariff",
       domain: "energy",
       status: "draft",
-      checks: {}
+      checks: {} as { [key: string]: { [key: string]: string } }
     },
     {
       id: 5,
       name: "Subscription - Retention",
       domain: "subscription",
       status: "draft",
-      checks: {}
+      checks: {} as { [key: string]: { [key: string]: string } }
     }
   ]);
 
@@ -49,11 +49,12 @@ const QualityChecklistTool = () => {
   // Load data on component mount
   useEffect(() => {
     const savedData = loadFromStorage();
-    if (savedData.qualityChecklist?.scenarios) {
-      setScenarios(savedData.qualityChecklist.scenarios);
+    const checklist = savedData.qualityChecklist || {};
+    if (Array.isArray(checklist.scenarios)) {
+      setScenarios(checklist.scenarios);
     }
-    if (savedData.qualityChecklist?.activeScenario !== undefined) {
-      setActiveScenario(savedData.qualityChecklist.activeScenario);
+    if (typeof checklist.activeScenario === "number") {
+      setActiveScenario(checklist.activeScenario);
     }
   }, []);
 
@@ -376,7 +377,7 @@ const QualityChecklistTool = () => {
     }
   };
 
-  const updateCheck = (scenarioIdx, categoryKey, checkId, status) => {
+  const updateCheck = (scenarioIdx: number, categoryKey: string, checkId: string, status: string) => {
     const newScenarios = [...scenarios];
     if (!newScenarios[scenarioIdx].checks[categoryKey]) {
       newScenarios[scenarioIdx].checks[categoryKey] = {};
@@ -406,7 +407,7 @@ const QualityChecklistTool = () => {
     setScenarios(newScenarios);
   };
 
-  const calculateProgress = (scenarioIdx) => {
+  const calculateProgress = (scenarioIdx: number) => {
     const allChecks = Object.values(checklistCategories).flatMap(cat => cat.checks);
     const completedChecks = Object.values(scenarios[scenarioIdx].checks)
       .flatMap(cat => Object.values(cat))
@@ -463,7 +464,7 @@ ${idx + 1}. ${check.criterion} ${check.critical ? '⚠️ CRITICAL' : ''}
     a.click();
   };
 
-  const resetScenario = (scenarioIdx) => {
+  const resetScenario = (scenarioIdx: number) => {
     const newScenarios = [...scenarios];
     newScenarios[scenarioIdx] = {
       ...newScenarios[scenarioIdx],

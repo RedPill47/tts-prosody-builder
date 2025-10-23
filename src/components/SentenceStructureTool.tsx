@@ -132,7 +132,7 @@ const SentenceStructureStandardizer = () => {
     }
   };
 
-  const [generatedScenarios, setGeneratedScenarios] = useState([]);
+  const [generatedScenarios, setGeneratedScenarios] = useState<any[]>([]);
 
   // Auto-save function
   const autoSave = createAutoSave('sentenceStructure');
