@@ -3,7 +3,7 @@ import { AlertCircle, CheckCircle, Edit, Save, X } from 'lucide-react';
 import { loadFromStorage, createAutoSave } from '../utils/persistence';
 
 const ScenarioRefinementTool = () => {
-  const [scenarios, setScenarios] = useState([
+  const [scenarios, setScenarios] = useState<any[]>([
     {
       id: 1,
       domain: "Banking",
@@ -91,12 +91,17 @@ const ScenarioRefinementTool = () => {
   // Load data on component mount
   useEffect(() => {
     const savedData = loadFromStorage();
-    const refinement = savedData.scenarioRefinement || {};
-    if (Array.isArray(refinement.scenarios)) {
-      setScenarios(refinement.scenarios);
+    if (
+      savedData.scenarioRefinement &&
+      Array.isArray(savedData.scenarioRefinement.scenarios)
+    ) {
+      setScenarios(savedData.scenarioRefinement.scenarios);
     }
-    if (typeof refinement.activeTab === "string") {
-      setActiveTab(refinement.activeTab);
+    if (
+      savedData.scenarioRefinement &&
+      typeof savedData.scenarioRefinement.activeTab === "string"
+    ) {
+      setActiveTab(savedData.scenarioRefinement.activeTab);
     }
   }, []);
 
@@ -169,7 +174,7 @@ const ScenarioRefinementTool = () => {
     };
   };
 
-  const startEditing = (scenario) => {
+  const startEditing = (scenario: any) => {
     setEditingId(scenario.id);
     setEditedText({
       optionA: scenario.optionA.text,

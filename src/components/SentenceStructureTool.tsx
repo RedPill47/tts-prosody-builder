@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Layout, Copy, CheckCircle, AlertCircle, FileText, Download, Trash2, X } from 'lucide-react';
-import { saveToStorage, loadFromStorage, createAutoSave } from '../utils/persistence';
+import { useState, useEffect } from 'react';
+import { Layout, Copy, CheckCircle, AlertCircle, Download, Trash2, X } from 'lucide-react';
+import { loadFromStorage, createAutoSave } from '../utils/persistence';
 
 const SentenceStructureStandardizer = () => {
   const [activeTemplate, setActiveTemplate] = useState('banking');
@@ -160,9 +160,9 @@ const SentenceStructureStandardizer = () => {
     });
   }, [generatedScenarios, activeTemplate, customInputs]);
 
-  const generateFromTemplate = (templateKey, inputs) => {
-    const template = templates[templateKey];
-    let text = template.structure.map(sentence => {
+  const generateFromTemplate = (templateKey: string, inputs: any) => {
+    const template = (templates as any)[templateKey];
+    let text = template.structure.map((sentence: string) => {
       return sentence
         .replace('[PRODUCT_NAME]', inputs.productName || template.example.productName)
         .replace('[ATTRIBUTE_1]', inputs.attribute1 || template.example.attribute1)
@@ -185,7 +185,7 @@ const SentenceStructureStandardizer = () => {
       wordCount: words.length,
       charCount: text.length,
       numberCount: numbers,
-      sentences: sentences.map(s => s.trim())
+      sentences: sentences.map((s: string) => s.trim())
     };
   };
 
@@ -226,7 +226,7 @@ const SentenceStructureStandardizer = () => {
   };
 
   const exportScenarios = () => {
-    const exportText = generatedScenarios.map((scenario, idx) => {
+    const exportText = generatedScenarios.map((scenario: any, idx: number) => {
       return `Scenario ${idx + 1}: ${scenario.domain}\n\nOption A:\n${scenario.optionA}\n\nOption B:\n${scenario.optionB}\n\n${'='.repeat(80)}\n\n`;
     }).join('');
 
@@ -238,7 +238,7 @@ const SentenceStructureStandardizer = () => {
     a.click();
   };
 
-  const deleteScenario = (index) => {
+  const deleteScenario = (index: number) => {
     setGeneratedScenarios(generatedScenarios.filter((_, idx) => idx !== index));
   };
 
@@ -246,9 +246,9 @@ const SentenceStructureStandardizer = () => {
     setGeneratedScenarios([]);
   };
 
-  const analyzeText = (text) => {
-    const sentences = text.split('.').filter(s => s.trim().length > 0);
-    const words = text.split(/\s+/).filter(w => w.length > 0);
+  const analyzeText = (text: string) => {
+    const sentences = text.split('.').filter((s: string) => s.trim().length > 0);
+    const words = text.split(/\s+/).filter((w: string) => w.length > 0);
     const numbers = (text.match(/\d+(\.\d+)?/g) || []).length;
     
     return {
@@ -277,7 +277,7 @@ const SentenceStructureStandardizer = () => {
       <div className="bg-white rounded-lg shadow-md p-4 mb-6">
         <h3 className="font-semibold text-gray-800 mb-3">Select Domain Template:</h3>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
-          {Object.keys(templates).map(key => (
+          {Object.keys(templates).map((key: string) => (
             <button
               key={key}
               onClick={() => setActiveTemplate(key)}
@@ -304,7 +304,7 @@ const SentenceStructureStandardizer = () => {
             <div>
               <h3 className="font-semibold text-gray-700 mb-2">Sentence Structure:</h3>
               <ol className="space-y-2">
-                {currentTemplate.structure.map((sentence, idx) => (
+                {currentTemplate.structure.map((sentence: string, idx: number) => (
                   <li key={idx} className="text-sm">
                     <span className="inline-block w-6 h-6 rounded-full bg-purple-100 text-purple-700 text-center font-semibold mr-2">
                       {idx + 1}
@@ -318,7 +318,7 @@ const SentenceStructureStandardizer = () => {
             <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
               <h4 className="font-semibold text-blue-900 mb-2">Guidelines:</h4>
               <ul className="space-y-1 text-sm text-blue-800">
-                {currentTemplate.guidelines.map((guideline, idx) => (
+                {currentTemplate.guidelines.map((guideline: string, idx: number) => (
                   <li key={idx}>• {guideline}</li>
                 ))}
               </ul>
@@ -480,7 +480,7 @@ const SentenceStructureStandardizer = () => {
           </div>
 
           <div className="space-y-4">
-            {generatedScenarios.map((scenario, idx) => (
+            {generatedScenarios.map((scenario: any, idx: number) => (
               <div key={idx} className="border rounded p-4 relative">
                 <div className="flex justify-between items-start mb-3">
                   <h3 className="font-semibold text-gray-800">

@@ -1,43 +1,55 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { CheckSquare, AlertTriangle, XCircle, Download, FileCheck, Award, Clock, RotateCcw, Trash2 } from 'lucide-react';
-import { saveToStorage, loadFromStorage, createAutoSave } from '../utils/persistence';
+import { loadFromStorage, createAutoSave } from '../utils/persistence';
+
+type ChecksByCategory = {
+  [categoryKey: string]: { [checkId: string]: string }
+};
+
+type Scenario = {
+  id: number;
+  name: string;
+  domain: string;
+  status: string;
+  checks: ChecksByCategory;
+};
 
 const QualityChecklistTool = () => {
-  const [scenarios, setScenarios] = useState([
+  const [scenarios, setScenarios] = useState<Scenario[]>([
     {
       id: 1,
       name: "Banking - Credit Card",
       domain: "banking",
       status: "draft",
-      checks: {} as { [key: string]: { [key: string]: string } }
+      checks: {}
     },
     {
       id: 2,
       name: "Insurance - Health Plan",
       domain: "insurance",
       status: "draft",
-      checks: {} as { [key: string]: { [key: string]: string } }
+      checks: {}
     },
     {
       id: 3,
       name: "Mobile - Data Plan",
       domain: "mobile",
       status: "draft",
-      checks: {} as { [key: string]: { [key: string]: string } }
+      checks: {}
     },
     {
       id: 4,
       name: "Energy - Tariff",
       domain: "energy",
       status: "draft",
-      checks: {} as { [key: string]: { [key: string]: string } }
+      checks: {}
     },
     {
       id: 5,
       name: "Subscription - Retention",
       domain: "subscription",
       status: "draft",
-      checks: {} as { [key: string]: { [key: string]: string } }
+      checks: {}
     }
   ]);
 
@@ -49,12 +61,17 @@ const QualityChecklistTool = () => {
   // Load data on component mount
   useEffect(() => {
     const savedData = loadFromStorage();
-    const checklist = savedData.qualityChecklist || {};
-    if (Array.isArray(checklist.scenarios)) {
-      setScenarios(checklist.scenarios);
+    if (
+      savedData.qualityChecklist &&
+      Array.isArray(savedData.qualityChecklist.scenarios)
+    ) {
+      setScenarios(savedData.qualityChecklist.scenarios);
     }
-    if (typeof checklist.activeScenario === "number") {
-      setActiveScenario(checklist.activeScenario);
+    if (
+      savedData.qualityChecklist &&
+      typeof savedData.qualityChecklist.activeScenario === "number"
+    ) {
+      setActiveScenario(savedData.qualityChecklist.activeScenario);
     }
   }, []);
 
@@ -379,10 +396,10 @@ const QualityChecklistTool = () => {
 
   const updateCheck = (scenarioIdx: number, categoryKey: string, checkId: string, status: string) => {
     const newScenarios = [...scenarios];
-    if (!newScenarios[scenarioIdx].checks[categoryKey]) {
-      newScenarios[scenarioIdx].checks[categoryKey] = {};
+    if (!(newScenarios[scenarioIdx].checks as ChecksByCategory)[categoryKey]) {
+      (newScenarios[scenarioIdx].checks as ChecksByCategory)[categoryKey] = {};
     }
-    newScenarios[scenarioIdx].checks[categoryKey][checkId] = status;
+    (newScenarios[scenarioIdx].checks as ChecksByCategory)[categoryKey][checkId] = status;
     
     // Auto-update scenario status
     const allChecks = Object.values(checklistCategories).flatMap(cat => cat.checks);
@@ -393,7 +410,7 @@ const QualityChecklistTool = () => {
     if (completedChecks.length === allChecks.length) {
       const criticalFails = allChecks.filter(check => {
         const categoryKey = Object.keys(checklistCategories).find(key =>
-          checklistCategories[key].checks.some(c => c.id === check.id)
+          (checklistCategories as any)[key].checks.some((c: any) => c.id === check.id)
         );
         const status = newScenarios[scenarioIdx].checks[categoryKey]?.[check.id];
         return check.critical && status === 'fail';
