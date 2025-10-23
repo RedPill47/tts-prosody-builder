@@ -31,8 +31,8 @@ const NumericEquivalenceCalculator = () => {
     if (savedData.numericEquivalence?.isEditing !== undefined) {
       setIsEditing(savedData.numericEquivalence.isEditing);
     }
-    if (savedData.numericEquivalence?.scenariosData) {
-      setScenariosData(savedData.numericEquivalence.scenariosData);
+    if ((savedData.numericEquivalence as any)?.scenariosData) {
+      setScenariosData((savedData.numericEquivalence as any).scenariosData);
     }
   }, []);
 
@@ -222,25 +222,25 @@ const NumericEquivalenceCalculator = () => {
 
   const saveEdits = () => {
     // Update the scenarios data with the edited parameters
-    if (scenariosData && (editableParams.optionA || editableParams.optionB)) {
+    if (scenariosData && ((editableParams as any).optionA || (editableParams as any).optionB)) {
       const updatedScenarios = { ...scenariosData };
       
-      if (editableParams.optionA && updatedScenarios[activeScenario]) {
+      if ((editableParams as any).optionA && updatedScenarios[activeScenario]) {
         updatedScenarios[activeScenario] = {
           ...updatedScenarios[activeScenario],
           optionA: {
             ...updatedScenarios[activeScenario].optionA,
-            params: { ...updatedScenarios[activeScenario].optionA.params, ...editableParams.optionA }
+            params: { ...updatedScenarios[activeScenario].optionA.params, ...(editableParams as any).optionA }
           }
         };
       }
       
-      if (editableParams.optionB && updatedScenarios[activeScenario]) {
+      if ((editableParams as any).optionB && updatedScenarios[activeScenario]) {
         updatedScenarios[activeScenario] = {
           ...updatedScenarios[activeScenario],
           optionB: {
             ...updatedScenarios[activeScenario].optionB,
-            params: { ...updatedScenarios[activeScenario].optionB.params, ...editableParams.optionB }
+            params: { ...updatedScenarios[activeScenario].optionB.params, ...(editableParams as any).optionB }
           }
         };
       }

@@ -63,15 +63,15 @@ const QualityChecklistTool = () => {
     const savedData = loadFromStorage();
     if (
       savedData.qualityChecklist &&
-      Array.isArray(savedData.qualityChecklist.scenarios)
+      Array.isArray((savedData.qualityChecklist as any).scenarios)
     ) {
-      setScenarios(savedData.qualityChecklist.scenarios);
+      setScenarios((savedData.qualityChecklist as any).scenarios);
     }
     if (
       savedData.qualityChecklist &&
-      typeof savedData.qualityChecklist.activeScenario === "number"
+      typeof (savedData.qualityChecklist as any).activeScenario === "number"
     ) {
-      setActiveScenario(savedData.qualityChecklist.activeScenario);
+      setActiveScenario((savedData.qualityChecklist as any).activeScenario);
     }
   }, []);
 
@@ -412,7 +412,7 @@ const QualityChecklistTool = () => {
         const categoryKey = Object.keys(checklistCategories).find(key =>
           (checklistCategories as any)[key].checks.some((c: any) => c.id === check.id)
         );
-        const status = newScenarios[scenarioIdx].checks[categoryKey]?.[check.id];
+        const status = newScenarios[scenarioIdx].checks[categoryKey as string]?.[check.id as string];
         return check.critical && status === 'fail';
       });
       
@@ -446,7 +446,7 @@ ${'='.repeat(80)}
 
 DETAILED CHECKLIST RESULTS
 
-${scenarios.map((scenario, idx) => `
+${scenarios.map((scenario) => `
 SCENARIO ${scenario.id}: ${scenario.name}
 ${'-'.repeat(60)}
 
@@ -454,7 +454,7 @@ ${Object.entries(checklistCategories).map(([catKey, category]) => `
 ${category.icon} ${category.name}
 ${scenario.checks[catKey] ? Object.entries(scenario.checks[catKey]).map(([checkId, status]) => {
   const check = category.checks.find(c => c.id === checkId);
-  return `  [${status === 'pass' ? '✓' : status === 'fail' ? '✗' : '○'}] ${check.criterion}`;
+  return `  [${status === 'pass' ? '✓' : status === 'fail' ? '✗' : '○'}] ${check?.criterion || 'Unknown criterion'}`;
 }).join('\n') : '  Not yet evaluated'}
 `).join('\n')}
 `).join('\n' + '='.repeat(80) + '\n')}
@@ -463,7 +463,7 @@ ${'='.repeat(80)}
 
 CHECKLIST REFERENCE
 
-${Object.entries(checklistCategories).map(([catKey, category]) => `
+${Object.entries(checklistCategories).map(([, category]) => `
 ${category.icon} ${category.name} ${category.critical ? '[CRITICAL]' : '[OPTIONAL]'}
 ${category.checks.map((check, idx) => `
 ${idx + 1}. ${check.criterion} ${check.critical ? '⚠️ CRITICAL' : ''}

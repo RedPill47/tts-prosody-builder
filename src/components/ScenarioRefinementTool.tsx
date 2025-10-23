@@ -99,9 +99,9 @@ const ScenarioRefinementTool = () => {
     }
     if (
       savedData.scenarioRefinement &&
-      typeof savedData.scenarioRefinement.activeTab === "string"
+      typeof (savedData.scenarioRefinement as any).activeTab === "string"
     ) {
-      setActiveTab(savedData.scenarioRefinement.activeTab);
+      setActiveTab((savedData.scenarioRefinement as any).activeTab);
     }
   }, []);
 
