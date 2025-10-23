@@ -175,9 +175,9 @@ const SentenceStructureStandardizer = () => {
     return text;
   };
 
-  const analyzeStructure = (text) => {
+  const analyzeStructure = (text: any) => {
     const sentences = text.match(/[^.!?]+[.!?]+/g) || [];
-    const words = text.split(/\s+/).filter(w => w.length > 0);
+    const words = text.split(/\s+/).filter((w: any) => w.length > 0);
     const numbers = (text.match(/€?\d+(\.\d+)?%?/g) || []).length;
     
     return {
@@ -189,11 +189,11 @@ const SentenceStructureStandardizer = () => {
     };
   };
 
-  const copyToClipboard = (text) => {
+  const copyToClipboard = (text: any) => {
     navigator.clipboard.writeText(text);
   };
 
-  const currentTemplate = templates[activeTemplate];
+  const currentTemplate = (templates as any)[activeTemplate];
   const exampleText = generateFromTemplate(activeTemplate, currentTemplate.example);
   const analysis = analyzeStructure(exampleText);
 
@@ -287,7 +287,7 @@ const SentenceStructureStandardizer = () => {
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
             >
-              {templates[key].name.split('/')[0].trim()}
+              {(templates as any)[key].name.split('/')[0].trim()}
             </button>
           ))}
         </div>
