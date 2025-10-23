@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Volume2, TrendingDown, Gauge, Clock, Copy, Download, Settings } from 'lucide-react';
 
 const ProsodyAnnotationTool = () => {
@@ -110,8 +110,8 @@ const ProsodyAnnotationTool = () => {
     }
   };
 
-  const generateSSML = (text, preset) => {
-    const params = presets[preset].parameters;
+  const generateSSML = (text: any, preset: any) => {
+    const params = (presets as any)[preset].parameters;
     let ssml = `<?xml version="1.0"?>
 <speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -141,11 +141,11 @@ const ProsodyAnnotationTool = () => {
     return ssml;
   };
 
-  const generateControlSheet = (preset) => {
-    const params = presets[preset].parameters;
+  const generateControlSheet = (preset: any) => {
+    const params = (presets as any)[preset].parameters;
     return `
 PROSODY CONTROL SHEET
-Preset: ${presets[preset].name}
+Preset: ${(presets as any)[preset].name}
 =====================
 
 PITCH (F0) CONTROL:
@@ -162,7 +162,7 @@ INTENSITY (VOLUME):
 ${params.volume.peaks.length > 0 ? '- Emphasis peaks: ' + JSON.stringify(params.volume.peaks) : ''}
 
 PAUSES:
-${params.pauses.length > 0 ? params.pauses.map(p => `- ${p.position}: ${p.duration}ms`).join('\n') : '- None specified'}
+${params.pauses.length > 0 ? params.pauses.map((p: any) => `- ${p.position}: ${p.duration}ms`).join('\n') : '- None specified'}
 
 VOICE QUALITY:
 - Target: ${params.voiceQuality}
@@ -175,11 +175,11 @@ ACOUSTIC VALIDATION TARGETS:
 `;
   };
 
-  const copyToClipboard = (text) => {
+  const copyToClipboard = (text: any) => {
     navigator.clipboard.writeText(text);
   };
 
-  const downloadSheet = (preset) => {
+  const downloadSheet = (preset: any) => {
     const sheet = generateControlSheet(preset);
     const blob = new Blob([sheet], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
@@ -189,7 +189,7 @@ ACOUSTIC VALIDATION TARGETS:
     a.click();
   };
 
-  const currentPreset = presets[selectedPreset];
+  const currentPreset = (presets as any)[selectedPreset];
 
   return (
     <div className="w-full max-w-6xl mx-auto p-6 bg-gray-50">
@@ -254,12 +254,12 @@ ACOUSTIC VALIDATION TARGETS:
                   onClick={() => setSelectedPreset(key)}
                   className={`p-4 rounded-lg border-2 transition-all ${
                     selectedPreset === key
-                      ? `border-${presets[key].color}-500 bg-${presets[key].color}-50`
+                      ? `border-${(presets as any)[key].color}-500 bg-${(presets as any)[key].color}-50`
                       : 'border-gray-200 hover:border-gray-300'
                   }`}
                 >
-                  <div className="text-3xl mb-2">{presets[key].icon}</div>
-                  <div className="font-semibold text-sm">{presets[key].name}</div>
+                  <div className="text-3xl mb-2">{(presets as any)[key].icon}</div>
+                  <div className="font-semibold text-sm">{(presets as any)[key].name}</div>
                 </button>
               ))}
             </div>
@@ -360,7 +360,7 @@ ACOUSTIC VALIDATION TARGETS:
                     </div>
                     <div className="text-sm">
                       {currentPreset.parameters.pauses.length > 0 ? (
-                        currentPreset.parameters.pauses.map((pause, idx) => (
+                        currentPreset.parameters.pauses.map((pause: any, idx: number) => (
                           <div key={idx} className="flex justify-between">
                             <span className="text-gray-700">{pause.position}:</span>
                             <span className="font-mono font-semibold">{pause.duration}ms</span>
@@ -390,7 +390,7 @@ ACOUSTIC VALIDATION TARGETS:
                 {currentPreset.literature ? (
                   <div className="bg-gray-50 rounded-lg p-4">
                     <ul className="space-y-2 text-sm">
-                      {currentPreset.literature.map((ref, idx) => (
+                      {currentPreset.literature.map((ref: any, idx: number) => (
                         <li key={idx} className="text-gray-700 leading-relaxed">
                           • {ref}
                         </li>
@@ -449,7 +449,7 @@ ACOUSTIC VALIDATION TARGETS:
                         : 'bg-gray-100 hover:bg-gray-200'
                     }`}
                   >
-                    {presets[key].icon} {key}
+                    {(presets as any)[key].icon} {key}
                   </button>
                 ))}
               </div>
