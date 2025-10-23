@@ -6,11 +6,7 @@ const NumericEquivalenceCalculator = () => {
   const [activeScenario, setActiveScenario] = useState('banking');
   const [editableParams, setEditableParams] = useState({});
   const [isEditing, setIsEditing] = useState(false);
-  const [customCalc, setCustomCalc] = useState({
-    name: '',
-    optionA: { formula: '', values: {} },
-    optionB: { formula: '', values: {} }
-  });
+  // Removed unused state
   const [scenariosData, setScenariosData] = useState<any>(null);
 
   // Auto-save function
