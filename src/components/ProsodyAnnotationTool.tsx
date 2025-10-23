@@ -5,13 +5,6 @@ const ProsodyAnnotationTool = () => {
   const [activeTab, setActiveTab] = useState('presets');
   const [selectedPreset, setSelectedPreset] = useState('authoritative');
   // Removed unused state
-  // const [customProsody, setCustomProsody] = useState({
-    pitch: 0,
-    pitchRange: 0,
-    rate: 0,
-    volume: 0,
-    emphasis: []
-  });
   const [inputText, setInputText] = useState(
     "The Premium Card has a €49 annual fee, offers 1% cashback on all purchases, and includes comprehensive travel insurance with emergency assistance worldwide."
   );
