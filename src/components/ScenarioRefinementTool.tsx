@@ -93,7 +93,8 @@ const ScenarioRefinementTool = () => {
     const savedData = loadFromStorage();
     if (
       savedData.scenarioRefinement &&
-      Array.isArray(savedData.scenarioRefinement.scenarios)
+      Array.isArray(savedData.scenarioRefinement.scenarios) &&
+      savedData.scenarioRefinement.scenarios.length > 0
     ) {
       setScenarios(savedData.scenarioRefinement.scenarios);
     }
