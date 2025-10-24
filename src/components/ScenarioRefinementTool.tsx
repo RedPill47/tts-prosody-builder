@@ -206,6 +206,12 @@ const ScenarioRefinementTool = () => {
     ));
   };
 
+  const deleteScenario = (id: any) => {
+    if (confirm('Are you sure you want to delete this scenario? This action cannot be undone.')) {
+      setScenarios(scenarios.filter(s => s.id !== id));
+    }
+  };
+
   const clearAllScenarios = () => {
     if (confirm('Are you sure you want to clear all scenarios? This action cannot be undone.')) {
       setScenarios([]);
@@ -297,13 +303,22 @@ const ScenarioRefinementTool = () => {
                        "Draft"}
                     </span>
                     {!isEditing && (
-                      <button
-                        onClick={() => startEditing(scenario)}
-                        className="p-2 hover:bg-gray-100 rounded"
-                        title="Edit scenario"
-                      >
-                        <Edit size={18} />
-                      </button>
+                      <>
+                        <button
+                          onClick={() => startEditing(scenario)}
+                          className="p-2 hover:bg-gray-100 rounded"
+                          title="Edit scenario"
+                        >
+                          <Edit size={18} />
+                        </button>
+                        <button
+                          onClick={() => deleteScenario(scenario.id)}
+                          className="p-2 hover:bg-red-100 rounded text-red-600"
+                          title="Delete scenario"
+                        >
+                          <X size={18} />
+                        </button>
+                      </>
                     )}
                   </div>
                 </div>
