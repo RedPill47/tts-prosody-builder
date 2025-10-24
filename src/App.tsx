@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { loadFromStorage, createAutoSave, exportData, importData, clearStorage } from './utils/persistence';
-import { 
+import {
   FileText, Calculator, Layout, Volume2, Eye, Coffee, CheckSquare,
   ChevronRight, Home, Upload, Trash2, BookOpen, Download
 } from 'lucide-react';
@@ -14,6 +14,7 @@ import AttentionCheckGenerator from './components/AttentionCheckGenerator';
 import FillerPromptGenerator from './components/FillerPromptGenerator';
 import QualityChecklistTool from './components/QualityChecklistTool';
 import Documentation from './components/Documentation';
+import CloudSyncStatus from './components/CloudSyncStatus';
 
 const UnifiedScenarioTool = () => {
   const [activePhase, setActivePhase] = useState('home');
@@ -448,6 +449,7 @@ const UnifiedScenarioTool = () => {
               </div>
               <h1 className="text-xl font-bold text-gray-900">TTS Prosody Builder</h1>
             </div>
+            <CloudSyncStatus />
           </div>
         </div>
       </div>
