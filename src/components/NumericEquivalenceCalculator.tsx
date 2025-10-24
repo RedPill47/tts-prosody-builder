@@ -2,6 +2,17 @@ import { useState, useEffect } from 'react';
 import { Calculator, AlertTriangle, CheckCircle, TrendingUp } from 'lucide-react';
 import { loadFromStorage, createAutoSave } from '../utils/persistence';
 
+interface Analysis {
+  valueA: number;
+  valueB: number;
+  difference: string;
+  percentDiff: string;
+  isEquivalent: boolean;
+  higherOption: string;
+  lowerOption: string;
+  status: string;
+}
+
 const NumericEquivalenceCalculator = () => {
   const [activeScenario, setActiveScenario] = useState('banking');
   const [editableParams, setEditableParams] = useState({});
@@ -166,12 +177,12 @@ const NumericEquivalenceCalculator = () => {
     }
   };
 
-  const calculateValue = (params: any, formula: any) => {
+  const calculateValue = (params: Record<string, number>, formula: string): number | null => {
     try {
       // Create a safe evaluation context
       const context = { ...params };
-      const result = eval(formula.replace(/([a-zA-Z_][a-zA-Z0-9_]*)/g, (match: any) => {
-        return context.hasOwnProperty(match) ? context[match] : match;
+      const result = eval(formula.replace(/([a-zA-Z_][a-zA-Z0-9_]*)/g, (match: string) => {
+        return context.hasOwnProperty(match) ? String(context[match]) : match;
       }));
       return parseFloat(result.toFixed(2));
     } catch (e) {
@@ -179,10 +190,10 @@ const NumericEquivalenceCalculator = () => {
     }
   };
 
-  const analyzeEquivalence = (scenario: any) => {
+  const analyzeEquivalence = (scenario: { optionA: { params: Record<string, number>; formula: string }; optionB: { params: Record<string, number>; formula: string } }): Analysis | { error: string } => {
     const valueA = calculateValue(scenario.optionA.params, scenario.optionA.formula);
     const valueB = calculateValue(scenario.optionB.params, scenario.optionB.formula);
-    
+
     if (valueA === null || valueB === null) {
       return { error: "Cannot calculate values" };
     }
@@ -205,8 +216,8 @@ const NumericEquivalenceCalculator = () => {
     };
   };
 
-  const getMedianFromRealWorld = (data: any, field: any) => {
-    const values = data.map((d: any) => d[field]).filter((v: any) => v !== undefined).sort((a: any, b: any) => a - b);
+  const getMedianFromRealWorld = (data: { [key: string]: number | string }[], field: string): number => {
+    const values = data.map((d: { [key: string]: number | string }) => d[field]).filter((v: number | string) => v !== undefined && typeof v === 'number').sort((a: number, b: number) => a - b) as number[];
     const mid = Math.floor(values.length / 2);
     return values.length % 2 === 0 ? (values[mid - 1] + values[mid]) / 2 : values[mid];
   };
@@ -256,7 +267,7 @@ const NumericEquivalenceCalculator = () => {
     setEditableParams({});
   };
 
-  const updateParam = (option: any, param: any, value: any) => {
+  const updateParam = (option: string, param: string, value: string) => {
     setEditableParams(prev => ({
       ...prev,
       [option]: {
@@ -290,8 +301,21 @@ const NumericEquivalenceCalculator = () => {
       params: getCurrentParams('optionB')
     }
   };
-  
-  const analysis = analyzeEquivalence(analysisScenario);
+
+  const analysisResult = analyzeEquivalence(analysisScenario);
+  const isAnalysisValid = (result: Analysis | { error: string }): result is Analysis => {
+    return 'valueA' in result;
+  };
+  const analysis = isAnalysisValid(analysisResult) ? analysisResult : {
+    valueA: 0,
+    valueB: 0,
+    difference: '0',
+    percentDiff: '0',
+    isEquivalent: false,
+    higherOption: 'A',
+    lowerOption: 'B',
+    status: 'error'
+  };
 
   return (
     <div className="w-full max-w-6xl mx-auto p-6 bg-gray-50">
@@ -518,7 +542,7 @@ const NumericEquivalenceCalculator = () => {
               </tr>
             </thead>
             <tbody>
-              {currentScenario.realWorldData.map((item: any, idx: number) => (
+              {currentScenario.realWorldData.map((item: { [key: string]: number | string }, idx: number) => (
                 <tr key={idx} className="border-t hover:bg-gray-50">
                   <td className="px-4 py-2 font-medium">{item.source}</td>
                   {Object.entries(item)

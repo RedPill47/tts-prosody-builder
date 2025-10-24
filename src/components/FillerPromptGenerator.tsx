@@ -1,10 +1,16 @@
 import { useState } from 'react';
 import { Coffee, Clock, Brain, Shuffle, Download, Copy, Play } from 'lucide-react';
 
+interface SequenceItem {
+  type: string;
+  content: string;
+  duration: number;
+  color: string;
+}
+
 const FillerPromptGenerator = () => {
   const [selectedCategory, setSelectedCategory] = useState('neutral');
-  // Removed unused state variables
-  const [generatedSequence, setGeneratedSequence] = useState<any[]>([]);
+  const [generatedSequence, setGeneratedSequence] = useState<SequenceItem[]>([]);
 
   const fillerCategories = {
     neutral: {
@@ -207,7 +213,7 @@ const FillerPromptGenerator = () => {
   ];
 
   const generateExperimentSequence = () => {
-    const sequence = [];
+    const sequence: SequenceItem[] = [];
     const scenarioPairs = 10;
 
     for (let i = 1; i <= scenarioPairs; i++) {
@@ -306,7 +312,7 @@ Generated: ${new Date().toLocaleString()}
 
 ${'='.repeat(80)}
 
-${generatedSequence.map((item: any, idx: number) => `
+${generatedSequence.map((item: SequenceItem, idx: number) => `
 ${idx + 1}. [${item.type.toUpperCase()}] ${item.content}
    Duration: ${item.duration}s
    Cumulative Time: ${generatedSequence.slice(0, idx + 1).reduce((sum, i) => sum + i.duration, 0)}s
@@ -315,10 +321,10 @@ ${idx + 1}. [${item.type.toUpperCase()}] ${item.content}
 ${'='.repeat(80)}
 
 FILLER PROMPTS LIBRARY
-${Object.entries(fillerCategories).map(([, cat]: [string, any]) => `
+${Object.entries(fillerCategories).map(([, cat]: [string, { icon: string; name: string; prompts: { text: string; duration: number; purpose: string }[] }]) => `
 ${cat.icon} ${cat.name}
 ${'-'.repeat(40)}
-${cat.prompts.map((p: any, idx: number) => `
+${cat.prompts.map((p: { text: string; duration: number; purpose: string }, idx: number) => `
 ${idx + 1}. "${p.text}"
    Duration: ${p.duration}s | Purpose: ${p.purpose}
 `).join('')}
@@ -391,7 +397,7 @@ ${idx + 1}. "${p.text}"
         </div>
 
         <div className="space-y-3">
-          {currentCategory.prompts.map((prompt: any, idx: number) => (
+          {currentCategory.prompts.map((prompt: { text: string; duration: number; purpose: string }, idx: number) => (
             <div key={idx} className={`border rounded-lg p-4 bg-${currentCategory.color}-50`}>
               <div className="flex items-start justify-between">
                 <div className="flex-1">
@@ -425,7 +431,7 @@ ${idx + 1}. "${p.text}"
           Experimental Considerations
         </h2>
         <div className="grid md:grid-cols-2 gap-4">
-          {experimentalConsiderations.map((item: any, idx: number) => (
+          {experimentalConsiderations.map((item: { title: string; description: string; recommendation: string; icon: string }, idx: number) => (
             <div key={idx} className="bg-gray-50 rounded-lg p-4 border-l-4 border-blue-400">
               <div className="flex items-start gap-3">
                 <span className="text-2xl">{item.icon}</span>
@@ -494,7 +500,7 @@ ${idx + 1}. "${p.text}"
                   </tr>
                 </thead>
                 <tbody>
-                  {generatedSequence.map((item: any, idx: number) => (
+                  {generatedSequence.map((item: SequenceItem, idx: number) => (
                     <tr key={idx} className={`border-t ${item.color} hover:opacity-75`}>
                       <td className="px-4 py-2 font-mono text-gray-600">{idx + 1}</td>
                       <td className="px-4 py-2">

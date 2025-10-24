@@ -4,12 +4,9 @@ import { Volume2, TrendingDown, Gauge, Clock, Copy, Download, Settings } from 'l
 const ProsodyAnnotationTool = () => {
   const [activeTab, setActiveTab] = useState('presets');
   const [selectedPreset, setSelectedPreset] = useState('authoritative');
-  // Removed unused state
   const [inputText, setInputText] = useState(
     "The Premium Card has a €49 annual fee, offers 1% cashback on all purchases, and includes comprehensive travel insurance with emergency assistance worldwide."
   );
-  // Removed unused state
-  // const [emphasisWords, setEmphasisWords] = useState([]);
 
   // Prosodic presets based on literature
   const presets = {
@@ -105,7 +102,7 @@ const ProsodyAnnotationTool = () => {
     }
   };
 
-  const generateSSML = (text: any, preset: any) => {
+  const generateSSML = (text: string, preset: string) => {
     const params = (presets as any)[preset].parameters;
     let ssml = `<?xml version="1.0"?>
 <speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis"
@@ -136,7 +133,7 @@ const ProsodyAnnotationTool = () => {
     return ssml;
   };
 
-  const generateControlSheet = (preset: any) => {
+  const generateControlSheet = (preset: string) => {
     const params = (presets as any)[preset].parameters;
     return `
 PROSODY CONTROL SHEET
@@ -157,7 +154,7 @@ INTENSITY (VOLUME):
 ${params.volume.peaks.length > 0 ? '- Emphasis peaks: ' + JSON.stringify(params.volume.peaks) : ''}
 
 PAUSES:
-${params.pauses.length > 0 ? params.pauses.map((p: any) => `- ${p.position}: ${p.duration}ms`).join('\n') : '- None specified'}
+${params.pauses.length > 0 ? params.pauses.map((p: { position: string; duration: number }) => `- ${p.position}: ${p.duration}ms`).join('\n') : '- None specified'}
 
 VOICE QUALITY:
 - Target: ${params.voiceQuality}
@@ -170,11 +167,11 @@ ACOUSTIC VALIDATION TARGETS:
 `;
   };
 
-  const copyToClipboard = (text: any) => {
+  const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
   };
 
-  const downloadSheet = (preset: any) => {
+  const downloadSheet = (preset: string) => {
     const sheet = generateControlSheet(preset);
     const blob = new Blob([sheet], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
@@ -355,7 +352,7 @@ ACOUSTIC VALIDATION TARGETS:
                     </div>
                     <div className="text-sm">
                       {currentPreset.parameters.pauses.length > 0 ? (
-                        currentPreset.parameters.pauses.map((pause: any, idx: number) => (
+                        currentPreset.parameters.pauses.map((pause: { position: string; duration: number }, idx: number) => (
                           <div key={idx} className="flex justify-between">
                             <span className="text-gray-700">{pause.position}:</span>
                             <span className="font-mono font-semibold">{pause.duration}ms</span>
@@ -385,7 +382,7 @@ ACOUSTIC VALIDATION TARGETS:
                 {currentPreset.literature ? (
                   <div className="bg-gray-50 rounded-lg p-4">
                     <ul className="space-y-2 text-sm">
-                      {currentPreset.literature.map((ref: any, idx: number) => (
+                      {currentPreset.literature.map((ref: string, idx: number) => (
                         <li key={idx} className="text-gray-700 leading-relaxed">
                           • {ref}
                         </li>
