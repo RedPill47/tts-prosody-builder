@@ -261,7 +261,7 @@ const UnifiedScenarioTool = () => {
         </p>
         <div className="flex gap-4">
           <button
-            onClick={() => setActivePhase('text-review')}
+            onClick={() => setActivePhase('numeric')}
             className="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
           >
             Start Building
@@ -272,6 +272,78 @@ const UnifiedScenarioTool = () => {
           >
             View Documentation
           </button>
+        </div>
+      </div>
+
+      {/* Workflow Overview */}
+      <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-6">
+        <h2 className="text-2xl font-bold text-gray-800 mb-4">7-Phase Workflow</h2>
+        <p className="text-gray-700 mb-6">
+          Follow this logical sequence to ensure your experimental scenarios are scientifically valid and ready for deployment:
+        </p>
+        
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="flex items-start gap-3">
+            <div className="w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center text-sm font-bold">1</div>
+            <div>
+              <h3 className="font-semibold text-gray-800">Numeric Equivalence</h3>
+              <p className="text-sm text-gray-600">Verify options are rationally equivalent (≤5% cost difference)</p>
+            </div>
+          </div>
+          
+          <div className="flex items-start gap-3">
+            <div className="w-8 h-8 bg-orange-600 text-white rounded-full flex items-center justify-center text-sm font-bold">2</div>
+            <div>
+              <h3 className="font-semibold text-gray-800">Sentence Structure</h3>
+              <p className="text-sm text-gray-600">Generate scenarios using validated templates</p>
+            </div>
+          </div>
+          
+          <div className="flex items-start gap-3">
+            <div className="w-8 h-8 bg-green-600 text-white rounded-full flex items-center justify-center text-sm font-bold">3</div>
+            <div>
+              <h3 className="font-semibold text-gray-800">Text Review</h3>
+              <p className="text-sm text-gray-600">Review and refine for neutrality and balance</p>
+            </div>
+          </div>
+          
+          <div className="flex items-start gap-3">
+            <div className="w-8 h-8 bg-red-600 text-white rounded-full flex items-center justify-center text-sm font-bold">4</div>
+            <div>
+              <h3 className="font-semibold text-gray-800">Prosody</h3>
+              <p className="text-sm text-gray-600">Define prosodic parameters for TTS manipulation</p>
+            </div>
+          </div>
+          
+          <div className="flex items-start gap-3">
+            <div className="w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center text-sm font-bold">5</div>
+            <div>
+              <h3 className="font-semibold text-gray-800">Attention Checks</h3>
+              <p className="text-sm text-gray-600">Generate comprehension and manipulation checks</p>
+            </div>
+          </div>
+          
+          <div className="flex items-start gap-3">
+            <div className="w-8 h-8 bg-yellow-600 text-white rounded-full flex items-center justify-center text-sm font-bold">6</div>
+            <div>
+              <h3 className="font-semibold text-gray-800">Filler Prompts</h3>
+              <p className="text-sm text-gray-600">Create neutral filler content between conditions</p>
+            </div>
+          </div>
+          
+          <div className="flex items-start gap-3">
+            <div className="w-8 h-8 bg-teal-600 text-white rounded-full flex items-center justify-center text-sm font-bold">7</div>
+            <div>
+              <h3 className="font-semibold text-gray-800">Quality Checklist</h3>
+              <p className="text-sm text-gray-600">Final validation before experiment deployment</p>
+            </div>
+          </div>
+        </div>
+        
+        <div className="mt-4 p-3 bg-blue-100 rounded">
+          <p className="text-sm text-blue-800">
+            <strong>💡 Pro Tip:</strong> Use the "Send to Review" button in Phase 2 to automatically transfer your generated scenarios to Phase 3 for immediate review and refinement.
+          </p>
         </div>
       </div>
 
