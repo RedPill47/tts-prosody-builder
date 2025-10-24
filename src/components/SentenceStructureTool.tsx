@@ -5,12 +5,22 @@ import { loadFromStorage, createAutoSave } from '../utils/persistence';
 const SentenceStructureStandardizer = () => {
   const [activeTemplate, setActiveTemplate] = useState('banking');
   const [customInputs, setCustomInputs] = useState({
-    productName: '',
-    attribute1: '',
-    attribute2: '',
-    attribute3: '',
-    tradeoff: '',
-    availability: ''
+    optionA: {
+      productName: '',
+      attribute1: '',
+      attribute2: '',
+      attribute3: '',
+      tradeoff: '',
+      availability: ''
+    },
+    optionB: {
+      productName: '',
+      attribute1: '',
+      attribute2: '',
+      attribute3: '',
+      tradeoff: '',
+      availability: ''
+    }
   });
   
   // Template structures for each domain
@@ -24,12 +34,22 @@ const SentenceStructureStandardizer = () => {
         "Which card would you prefer?"
       ],
       example: {
-        productName: "Premium Card",
-        attribute1: "€49",
-        attribute2: "1% cashback",
-        attribute3: "comprehensive travel insurance with emergency assistance worldwide",
-        tradeoff: "Higher annual fee provides additional travel benefits",
-        availability: "available immediately"
+        optionA: {
+          productName: "Premium Card",
+          attribute1: "€49",
+          attribute2: "1%",
+          attribute3: "comprehensive travel insurance with emergency assistance worldwide",
+          tradeoff: "Higher annual fee provides additional travel benefits",
+          availability: "available immediately"
+        },
+        optionB: {
+          productName: "Classic Card",
+          attribute1: "€0",
+          attribute2: "0.6%",
+          attribute3: "optional travel insurance available for purchase separately",
+          tradeoff: "No annual fee with slightly lower cashback rate",
+          availability: "available immediately"
+        }
       },
       guidelines: [
         "Attribute 1: Always the fee (€X format)",
@@ -47,12 +67,22 @@ const SentenceStructureStandardizer = () => {
         "Which plan would you prefer?"
       ],
       example: {
-        productName: "A",
-        attribute1: "€35",
-        attribute2: "€350",
-        attribute3: "all covered services are fully paid",
-        tradeoff: "Lower deductible means higher monthly premium",
-        availability: "enrollment available"
+        optionA: {
+          productName: "A",
+          attribute1: "€35",
+          attribute2: "€350",
+          attribute3: "all covered services are fully paid",
+          tradeoff: "Lower deductible means higher monthly premium",
+          availability: "enrollment available"
+        },
+        optionB: {
+          productName: "B",
+          attribute1: "€20",
+          attribute2: "€500",
+          attribute3: "all covered services are fully paid",
+          tradeoff: "Higher deductible means lower monthly premium",
+          availability: "enrollment available"
+        }
       },
       guidelines: [
         "Attribute 1: Monthly premium (€X format)",
@@ -70,12 +100,22 @@ const SentenceStructureStandardizer = () => {
         "Which plan would you prefer?"
       ],
       example: {
-        productName: "Standard",
-        attribute1: "40 gigabytes",
-        attribute2: "€15",
-        attribute3: "5G Plus network access with priority support",
-        tradeoff: "More data available at a higher monthly rate",
-        availability: "activation within 24 hours"
+        optionA: {
+          productName: "Standard",
+          attribute1: "40 gigabytes",
+          attribute2: "€15",
+          attribute3: "5G Plus network access with priority support",
+          tradeoff: "Less data with enhanced network features",
+          availability: "activation within 24 hours"
+        },
+        optionB: {
+          productName: "Extended",
+          attribute1: "60 gigabytes",
+          attribute2: "€18",
+          attribute3: "standard 5G network access",
+          tradeoff: "More data at a higher monthly rate",
+          availability: "activation within 24 hours"
+        }
       },
       guidelines: [
         "Attribute 1: Data allowance (X gigabytes format)",
@@ -93,12 +133,22 @@ const SentenceStructureStandardizer = () => {
         "Which plan would you prefer?"
       ],
       example: {
-        productName: "Fixed Rate",
-        attribute1: "€0.27",
-        attribute2: "€5",
-        attribute3: "Your rate stays the same for 12 months",
-        tradeoff: "Fixed pricing protects against market increases",
-        availability: "switch available"
+        optionA: {
+          productName: "Fixed Rate",
+          attribute1: "€0.27",
+          attribute2: "€5",
+          attribute3: "Your rate stays the same for 12 months",
+          tradeoff: "Fixed pricing protects against market increases",
+          availability: "switch available"
+        },
+        optionB: {
+          productName: "Variable Rate",
+          attribute1: "between €0.25 and €0.29",
+          attribute2: "€0",
+          attribute3: "Your rate adjusts quarterly based on market conditions",
+          tradeoff: "No monthly fee but rate fluctuates with market",
+          availability: "switch available"
+        }
       },
       guidelines: [
         "Attribute 1: Rate per kWh (€0.XX format)",
@@ -116,12 +166,22 @@ const SentenceStructureStandardizer = () => {
         "Would you like to continue or cancel?"
       ],
       example: {
-        productName: "Continue",
-        attribute1: "€8.99",
-        attribute2: "You keep access to two premium channels and can cancel anytime without penalties",
-        attribute3: "Your saved playlists and preferences will remain active",
-        tradeoff: "Continuing maintains all your personalized content",
-        availability: "effective immediately"
+        optionA: {
+          productName: "Continue",
+          attribute1: "€8.99",
+          attribute2: "You keep access to two premium channels and can cancel anytime without penalties",
+          attribute3: "Your saved playlists and preferences will remain active",
+          tradeoff: "Continuing maintains all your personalized content",
+          availability: "effective immediately"
+        },
+        optionB: {
+          productName: "Cancel",
+          attribute1: "€0",
+          attribute2: "You lose access to all premium channels immediately",
+          attribute3: "Your saved playlists and preferences will be deleted",
+          tradeoff: "Canceling saves money but you lose all saved content",
+          availability: "effective immediately"
+        }
       },
       guidelines: [
         "Attribute 1: Monthly cost (€X.XX format)",
@@ -133,9 +193,6 @@ const SentenceStructureStandardizer = () => {
   };
 
   const [generatedScenarios, setGeneratedScenarios] = useState<any[]>([]);
-
-  // Auto-save function
-  const autoSave = createAutoSave('sentenceStructure');
 
   // Load data on component mount
   useEffect(() => {
@@ -151,6 +208,8 @@ const SentenceStructureStandardizer = () => {
     }
   }, []);
 
+  const autoSave = createAutoSave('sentenceStructure');
+
   // Save data whenever generatedScenarios, activeTemplate, or customInputs changes
   useEffect(() => {
     autoSave({
@@ -158,26 +217,30 @@ const SentenceStructureStandardizer = () => {
       activeTemplate,
       customInputs
     });
-  }, [generatedScenarios, activeTemplate, customInputs]);
+  }, [generatedScenarios, activeTemplate, customInputs, autoSave]);
 
-  const generateFromTemplate = (templateKey: string, inputs: any) => {
+  const generateFromTemplate = (templateKey: string, inputs: any, option = 'A') => {
     const template = (templates as any)[templateKey];
+    const inputData = option === 'A' ? 
+      (inputs.optionA || inputs) : 
+      (inputs.optionB || inputs);
+    
     let text = template.structure.map((sentence: string) => {
       return sentence
-        .replace('[PRODUCT_NAME]', inputs.productName || template.example.productName)
-        .replace('[ATTRIBUTE_1]', inputs.attribute1 || template.example.attribute1)
-        .replace('[ATTRIBUTE_2]', inputs.attribute2 || template.example.attribute2)
-        .replace('[ATTRIBUTE_3]', inputs.attribute3 || template.example.attribute3)
-        .replace('[TRADEOFF_STATEMENT]', inputs.tradeoff || template.example.tradeoff)
-        .replace('[AVAILABILITY]', inputs.availability || template.example.availability);
+        .replace('[PRODUCT_NAME]', inputData.productName || template.example[`option${option}`].productName)
+        .replace('[ATTRIBUTE_1]', inputData.attribute1 || template.example[`option${option}`].attribute1)
+        .replace('[ATTRIBUTE_2]', inputData.attribute2 || template.example[`option${option}`].attribute2)
+        .replace('[ATTRIBUTE_3]', inputData.attribute3 || template.example[`option${option}`].attribute3)
+        .replace('[TRADEOFF_STATEMENT]', inputData.tradeoff || template.example[`option${option}`].tradeoff)
+        .replace('[AVAILABILITY]', inputData.availability || template.example[`option${option}`].availability);
     }).join(' ');
     
     return text;
   };
 
-  const analyzeStructure = (text: any) => {
+  const analyzeText = (text: string) => {
     const sentences = text.match(/[^.!?]+[.!?]+/g) || [];
-    const words = text.split(/\s+/).filter((w: any) => w.length > 0);
+    const words = text.split(/\s+/).filter((w: string) => w.length > 0);
     const numbers = (text.match(/€?\d+(\.\d+)?%?/g) || []).length;
     
     return {
@@ -189,23 +252,28 @@ const SentenceStructureStandardizer = () => {
     };
   };
 
-  const copyToClipboard = (text: any) => {
+  const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
   };
 
+  const deleteScenario = (index: number) => {
+    const newScenarios = generatedScenarios.filter((_, idx) => idx !== index);
+    setGeneratedScenarios(newScenarios);
+  };
+
+  const clearAllScenarios = () => {
+    setGeneratedScenarios([]);
+  };
+
   const currentTemplate = (templates as any)[activeTemplate];
-  const exampleText = generateFromTemplate(activeTemplate, currentTemplate.example);
-  const analysis = analyzeStructure(exampleText);
+  const exampleTextA = generateFromTemplate(activeTemplate, currentTemplate.example, 'A');
+  const exampleTextB = generateFromTemplate(activeTemplate, currentTemplate.example, 'B');
+  const analysisA = analyzeText(exampleTextA);
+  const analysisB = analyzeText(exampleTextB);
 
   const addToGenerated = () => {
-    const optionAText = generateFromTemplate(activeTemplate, {
-      ...customInputs,
-      productName: customInputs.productName + ' A'
-    });
-    const optionBText = generateFromTemplate(activeTemplate, {
-      ...customInputs,
-      productName: customInputs.productName + ' B'
-    });
+    const optionAText = generateFromTemplate(activeTemplate, customInputs, 'A');
+    const optionBText = generateFromTemplate(activeTemplate, customInputs, 'B');
 
     setGeneratedScenarios([...generatedScenarios, {
       domain: currentTemplate.name,
@@ -216,12 +284,22 @@ const SentenceStructureStandardizer = () => {
 
     // Reset inputs
     setCustomInputs({
-      productName: '',
-      attribute1: '',
-      attribute2: '',
-      attribute3: '',
-      tradeoff: '',
-      availability: ''
+      optionA: {
+        productName: '',
+        attribute1: '',
+        attribute2: '',
+        attribute3: '',
+        tradeoff: '',
+        availability: ''
+      },
+      optionB: {
+        productName: '',
+        attribute1: '',
+        attribute2: '',
+        attribute3: '',
+        tradeoff: '',
+        availability: ''
+      }
     });
   };
 
@@ -236,27 +314,6 @@ const SentenceStructureStandardizer = () => {
     a.href = url;
     a.download = 'standardized_scenarios.txt';
     a.click();
-  };
-
-  const deleteScenario = (index: number) => {
-    setGeneratedScenarios(generatedScenarios.filter((_, idx) => idx !== index));
-  };
-
-  const clearAllScenarios = () => {
-    setGeneratedScenarios([]);
-  };
-
-  const analyzeText = (text: string) => {
-    const sentences = text.split('.').filter((s: string) => s.trim().length > 0);
-    const words = text.split(/\s+/).filter((w: string) => w.length > 0);
-    const numbers = (text.match(/\d+(\.\d+)?/g) || []).length;
-    
-    return {
-      sentenceCount: sentences.length,
-      wordCount: words.length,
-      charCount: text.length,
-      numberCount: numbers
-    };
   };
 
   return (
@@ -326,34 +383,73 @@ const SentenceStructureStandardizer = () => {
           </div>
 
           <div className="bg-gray-50 rounded p-4">
-            <div className="flex items-center justify-between mb-2">
-              <h4 className="font-semibold text-gray-800">Example Output:</h4>
-              <button
-                onClick={() => copyToClipboard(exampleText)}
-                className="text-sm text-purple-600 hover:text-purple-800 flex items-center gap-1"
-              >
-                <Copy size={14} />
-                Copy
-              </button>
+            <div className="flex items-center justify-between mb-3">
+              <h4 className="font-semibold text-gray-800">Example Outputs:</h4>
             </div>
-            <p className="text-sm text-gray-700 leading-relaxed mb-3">{exampleText}</p>
             
-            <div className="grid grid-cols-4 gap-2 text-xs">
-              <div className="bg-white rounded p-2 text-center">
-                <div className="font-semibold text-gray-800">{analysis.sentenceCount}</div>
-                <div className="text-gray-600">Sentences</div>
+            <div className="space-y-3 mb-3">
+              <div>
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-xs font-semibold text-blue-700">Option A:</span>
+                  <button
+                    onClick={() => copyToClipboard(exampleTextA)}
+                    className="text-sm text-purple-600 hover:text-purple-800 flex items-center gap-1"
+                  >
+                    <Copy size={14} />
+                    Copy
+                  </button>
+                </div>
+                <p className="text-sm text-gray-700 leading-relaxed mb-2 bg-blue-50 p-2 rounded">{exampleTextA}</p>
+                <div className="grid grid-cols-4 gap-2 text-xs">
+                  <div className="bg-white rounded p-2 text-center">
+                    <div className="font-semibold text-gray-800">{analysisA.sentenceCount}</div>
+                    <div className="text-gray-600">Sentences</div>
+                  </div>
+                  <div className="bg-white rounded p-2 text-center">
+                    <div className="font-semibold text-gray-800">{analysisA.wordCount}</div>
+                    <div className="text-gray-600">Words</div>
+                  </div>
+                  <div className="bg-white rounded p-2 text-center">
+                    <div className="font-semibold text-gray-800">{analysisA.charCount}</div>
+                    <div className="text-gray-600">Characters</div>
+                  </div>
+                  <div className="bg-white rounded p-2 text-center">
+                    <div className="font-semibold text-gray-800">{analysisA.numberCount}</div>
+                    <div className="text-gray-600">Numbers</div>
+                  </div>
+                </div>
               </div>
-              <div className="bg-white rounded p-2 text-center">
-                <div className="font-semibold text-gray-800">{analysis.wordCount}</div>
-                <div className="text-gray-600">Words</div>
-              </div>
-              <div className="bg-white rounded p-2 text-center">
-                <div className="font-semibold text-gray-800">{analysis.charCount}</div>
-                <div className="text-gray-600">Characters</div>
-              </div>
-              <div className="bg-white rounded p-2 text-center">
-                <div className="font-semibold text-gray-800">{analysis.numberCount}</div>
-                <div className="text-gray-600">Numbers</div>
+
+              <div>
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-xs font-semibold text-green-700">Option B:</span>
+                  <button
+                    onClick={() => copyToClipboard(exampleTextB)}
+                    className="text-sm text-purple-600 hover:text-purple-800 flex items-center gap-1"
+                  >
+                    <Copy size={14} />
+                    Copy
+                  </button>
+                </div>
+                <p className="text-sm text-gray-700 leading-relaxed mb-2 bg-green-50 p-2 rounded">{exampleTextB}</p>
+                <div className="grid grid-cols-4 gap-2 text-xs">
+                  <div className="bg-white rounded p-2 text-center">
+                    <div className="font-semibold text-gray-800">{analysisB.sentenceCount}</div>
+                    <div className="text-gray-600">Sentences</div>
+                  </div>
+                  <div className="bg-white rounded p-2 text-center">
+                    <div className="font-semibold text-gray-800">{analysisB.wordCount}</div>
+                    <div className="text-gray-600">Words</div>
+                  </div>
+                  <div className="bg-white rounded p-2 text-center">
+                    <div className="font-semibold text-gray-800">{analysisB.charCount}</div>
+                    <div className="text-gray-600">Characters</div>
+                  </div>
+                  <div className="bg-white rounded p-2 text-center">
+                    <div className="font-semibold text-gray-800">{analysisB.numberCount}</div>
+                    <div className="text-gray-600">Numbers</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -366,15 +462,19 @@ const SentenceStructureStandardizer = () => {
           </h2>
 
           <div className="space-y-4 mb-6">
+            <h3 className="font-semibold text-gray-700 mb-2">Option A</h3>
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-1">
                 Product Name
               </label>
               <input
                 type="text"
-                value={customInputs.productName}
-                onChange={(e) => setCustomInputs({...customInputs, productName: e.target.value})}
-                placeholder={currentTemplate.example.productName}
+                value={customInputs.optionA.productName}
+                onChange={(e) => setCustomInputs({
+                  ...customInputs,
+                  optionA: {...customInputs.optionA, productName: e.target.value}
+                })}
+                placeholder={currentTemplate.example.optionA.productName}
                 className="w-full px-3 py-2 border rounded text-sm"
               />
             </div>
@@ -385,9 +485,12 @@ const SentenceStructureStandardizer = () => {
               </label>
               <input
                 type="text"
-                value={customInputs.attribute1}
-                onChange={(e) => setCustomInputs({...customInputs, attribute1: e.target.value})}
-                placeholder={currentTemplate.example.attribute1}
+                value={customInputs.optionA.attribute1}
+                onChange={(e) => setCustomInputs({
+                  ...customInputs,
+                  optionA: {...customInputs.optionA, attribute1: e.target.value}
+                })}
+                placeholder={currentTemplate.example.optionA.attribute1}
                 className="w-full px-3 py-2 border rounded text-sm"
               />
               <p className="text-xs text-gray-500 mt-1">{currentTemplate.guidelines[0]}</p>
@@ -399,9 +502,12 @@ const SentenceStructureStandardizer = () => {
               </label>
               <input
                 type="text"
-                value={customInputs.attribute2}
-                onChange={(e) => setCustomInputs({...customInputs, attribute2: e.target.value})}
-                placeholder={currentTemplate.example.attribute2}
+                value={customInputs.optionA.attribute2}
+                onChange={(e) => setCustomInputs({
+                  ...customInputs,
+                  optionA: {...customInputs.optionA, attribute2: e.target.value}
+                })}
+                placeholder={currentTemplate.example.optionA.attribute2}
                 className="w-full px-3 py-2 border rounded text-sm"
               />
               <p className="text-xs text-gray-500 mt-1">{currentTemplate.guidelines[1]}</p>
@@ -413,9 +519,12 @@ const SentenceStructureStandardizer = () => {
               </label>
               <input
                 type="text"
-                value={customInputs.attribute3}
-                onChange={(e) => setCustomInputs({...customInputs, attribute3: e.target.value})}
-                placeholder={currentTemplate.example.attribute3}
+                value={customInputs.optionA.attribute3}
+                onChange={(e) => setCustomInputs({
+                  ...customInputs,
+                  optionA: {...customInputs.optionA, attribute3: e.target.value}
+                })}
+                placeholder={currentTemplate.example.optionA.attribute3}
                 className="w-full px-3 py-2 border rounded text-sm"
               />
               <p className="text-xs text-gray-500 mt-1">{currentTemplate.guidelines[2]}</p>
@@ -427,9 +536,95 @@ const SentenceStructureStandardizer = () => {
               </label>
               <input
                 type="text"
-                value={customInputs.tradeoff}
-                onChange={(e) => setCustomInputs({...customInputs, tradeoff: e.target.value})}
-                placeholder={currentTemplate.example.tradeoff}
+                value={customInputs.optionA.tradeoff}
+                onChange={(e) => setCustomInputs({
+                  ...customInputs,
+                  optionA: {...customInputs.optionA, tradeoff: e.target.value}
+                })}
+                placeholder={currentTemplate.example.optionA.tradeoff}
+                className="w-full px-3 py-2 border rounded text-sm"
+              />
+            </div>
+
+            <hr className="my-6" />
+
+            <h3 className="font-semibold text-gray-700 mb-2">Option B</h3>
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-1">
+                Product Name
+              </label>
+              <input
+                type="text"
+                value={customInputs.optionB.productName}
+                onChange={(e) => setCustomInputs({
+                  ...customInputs,
+                  optionB: {...customInputs.optionB, productName: e.target.value}
+                })}
+                placeholder={currentTemplate.example.optionB.productName}
+                className="w-full px-3 py-2 border rounded text-sm"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-1">
+                Attribute 1
+              </label>
+              <input
+                type="text"
+                value={customInputs.optionB.attribute1}
+                onChange={(e) => setCustomInputs({
+                  ...customInputs,
+                  optionB: {...customInputs.optionB, attribute1: e.target.value}
+                })}
+                placeholder={currentTemplate.example.optionB.attribute1}
+                className="w-full px-3 py-2 border rounded text-sm"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-1">
+                Attribute 2
+              </label>
+              <input
+                type="text"
+                value={customInputs.optionB.attribute2}
+                onChange={(e) => setCustomInputs({
+                  ...customInputs,
+                  optionB: {...customInputs.optionB, attribute2: e.target.value}
+                })}
+                placeholder={currentTemplate.example.optionB.attribute2}
+                className="w-full px-3 py-2 border rounded text-sm"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-1">
+                Attribute 3
+              </label>
+              <input
+                type="text"
+                value={customInputs.optionB.attribute3}
+                onChange={(e) => setCustomInputs({
+                  ...customInputs,
+                  optionB: {...customInputs.optionB, attribute3: e.target.value}
+                })}
+                placeholder={currentTemplate.example.optionB.attribute3}
+                className="w-full px-3 py-2 border rounded text-sm"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-1">
+                Tradeoff Statement
+              </label>
+              <input
+                type="text"
+                value={customInputs.optionB.tradeoff}
+                onChange={(e) => setCustomInputs({
+                  ...customInputs,
+                  optionB: {...customInputs.optionB, tradeoff: e.target.value}
+                })}
+                placeholder={currentTemplate.example.optionB.tradeoff}
                 className="w-full px-3 py-2 border rounded text-sm"
               />
             </div>
@@ -443,12 +638,20 @@ const SentenceStructureStandardizer = () => {
             Generate & Add to Collection
           </button>
 
-          {customInputs.productName && (
-            <div className="mt-4 bg-purple-50 rounded p-4">
-              <h4 className="font-semibold text-purple-900 mb-2">Preview:</h4>
-              <p className="text-sm text-gray-700">
-                {generateFromTemplate(activeTemplate, customInputs)}
-              </p>
+          {(customInputs.optionA.productName || customInputs.optionB.productName) && (
+            <div className="mt-4 space-y-3">
+              <div className="bg-blue-50 rounded p-4">
+                <h4 className="font-semibold text-blue-900 mb-2">Preview Option A:</h4>
+                <p className="text-sm text-gray-700">
+                  {generateFromTemplate(activeTemplate, customInputs, 'A')}
+                </p>
+              </div>
+              <div className="bg-green-50 rounded p-4">
+                <h4 className="font-semibold text-green-900 mb-2">Preview Option B:</h4>
+                <p className="text-sm text-gray-700">
+                  {generateFromTemplate(activeTemplate, customInputs, 'B')}
+                </p>
+              </div>
             </div>
           )}
         </div>
@@ -463,45 +666,45 @@ const SentenceStructureStandardizer = () => {
             </h2>
             <div className="flex gap-2">
               <button
+                onClick={clearAllScenarios}
+                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 flex items-center gap-2 text-sm"
+              >
+                <Trash2 size={16} />
+                Clear All
+              </button>
+              <button
                 onClick={exportScenarios}
                 className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 flex items-center gap-2 text-sm"
               >
                 <Download size={16} />
                 Export All
               </button>
-              <button
-                onClick={clearAllScenarios}
-                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 flex items-center gap-2 text-sm"
-              >
-                <X size={16} />
-                Clear All
-              </button>
             </div>
           </div>
 
           <div className="space-y-4">
             {generatedScenarios.map((scenario: any, idx: number) => (
-              <div key={idx} className="border rounded p-4 relative">
-                <div className="flex justify-between items-start mb-3">
+              <div key={idx} className="border rounded p-4">
+                <div className="flex items-center justify-between mb-3">
                   <h3 className="font-semibold text-gray-800">
                     Scenario {idx + 1}: {scenario.domain}
                   </h3>
                   <button
                     onClick={() => deleteScenario(idx)}
-                    className="p-2 text-red-500 hover:text-red-700 hover:bg-red-50 rounded transition-colors"
-                    title="Delete scenario"
+                    className="text-red-600 hover:text-red-800 flex items-center gap-1 text-sm"
                   >
-                    <Trash2 size={16} />
+                    <X size={16} />
+                    Delete
                   </button>
                 </div>
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="bg-blue-50 rounded p-3">
                     <h4 className="font-semibold text-blue-900 text-sm mb-2">Option A</h4>
-                    <p className="text-sm text-gray-700 mb-3">{scenario.optionA}</p>
-                    <div className="grid grid-cols-4 gap-1 text-xs">
+                    <p className="text-sm text-gray-700">{scenario.optionA}</p>
+                    <div className="mt-2 grid grid-cols-4 gap-2 text-xs">
                       <div className="bg-white rounded p-1 text-center">
                         <div className="font-semibold text-gray-800">{analyzeText(scenario.optionA).sentenceCount}</div>
-                        <div className="text-gray-600">Sent</div>
+                        <div className="text-gray-600">Sentences</div>
                       </div>
                       <div className="bg-white rounded p-1 text-center">
                         <div className="font-semibold text-gray-800">{analyzeText(scenario.optionA).wordCount}</div>
@@ -509,21 +712,21 @@ const SentenceStructureStandardizer = () => {
                       </div>
                       <div className="bg-white rounded p-1 text-center">
                         <div className="font-semibold text-gray-800">{analyzeText(scenario.optionA).charCount}</div>
-                        <div className="text-gray-600">Chars</div>
+                        <div className="text-gray-600">Characters</div>
                       </div>
                       <div className="bg-white rounded p-1 text-center">
                         <div className="font-semibold text-gray-800">{analyzeText(scenario.optionA).numberCount}</div>
-                        <div className="text-gray-600">Nums</div>
+                        <div className="text-gray-600">Numbers</div>
                       </div>
                     </div>
                   </div>
                   <div className="bg-green-50 rounded p-3">
                     <h4 className="font-semibold text-green-900 text-sm mb-2">Option B</h4>
-                    <p className="text-sm text-gray-700 mb-3">{scenario.optionB}</p>
-                    <div className="grid grid-cols-4 gap-1 text-xs">
+                    <p className="text-sm text-gray-700">{scenario.optionB}</p>
+                    <div className="mt-2 grid grid-cols-4 gap-2 text-xs">
                       <div className="bg-white rounded p-1 text-center">
                         <div className="font-semibold text-gray-800">{analyzeText(scenario.optionB).sentenceCount}</div>
-                        <div className="text-gray-600">Sent</div>
+                        <div className="text-gray-600">Sentences</div>
                       </div>
                       <div className="bg-white rounded p-1 text-center">
                         <div className="font-semibold text-gray-800">{analyzeText(scenario.optionB).wordCount}</div>
@@ -531,11 +734,11 @@ const SentenceStructureStandardizer = () => {
                       </div>
                       <div className="bg-white rounded p-1 text-center">
                         <div className="font-semibold text-gray-800">{analyzeText(scenario.optionB).charCount}</div>
-                        <div className="text-gray-600">Chars</div>
+                        <div className="text-gray-600">Characters</div>
                       </div>
                       <div className="bg-white rounded p-1 text-center">
                         <div className="font-semibold text-gray-800">{analyzeText(scenario.optionB).numberCount}</div>
-                        <div className="text-gray-600">Nums</div>
+                        <div className="text-gray-600">Numbers</div>
                       </div>
                     </div>
                   </div>
