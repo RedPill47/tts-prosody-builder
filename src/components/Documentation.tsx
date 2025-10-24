@@ -270,10 +270,11 @@ const Documentation = () => {
             <div className="bg-blue-50 p-4 rounded">
               <h4 className="font-semibold text-blue-900 mb-2">What You'll See</h4>
               <ul className="text-sm text-blue-800 space-y-1">
-                <li>• Template domain selector (Banking, Insurance, Mobile)</li>
+                <li>• Template domain selector (Banking, Insurance, Mobile, Energy, Subscription)</li>
                 <li>• Template structure with placeholders [PRODUCT_NAME], [ATTR1], etc.</li>
-                <li>• Input fields for each placeholder</li>
-                <li>• Live preview of generated text</li>
+                <li>• Separate input fields for Option A and Option B</li>
+                <li>• Live preview of generated text for both options</li>
+                <li>• Statistics counters (sentences, words, characters, numbers)</li>
                 <li>• 4-sentence structure guidelines</li>
               </ul>
             </div>
@@ -309,21 +310,22 @@ const Documentation = () => {
                   </ul>
                 </div>
                 <div>
-                  <strong>Step 2: Fill Input Fields</strong>
+                  <strong>Step 2: Fill Input Fields for Both Options</strong>
                   <ul className="ml-4 mt-1 space-y-1">
-                    <li>• Product Name: Keep simple and neutral</li>
-                    <li>• Attribute 1: Primary numeric value (fee, premium, data)</li>
-                    <li>• Attribute 2: Secondary numeric value (cashback, deductible, price)</li>
-                    <li>• Attribute 3: Qualitative feature (insurance, support, etc.)</li>
+                    <li>• <strong>Option A:</strong> Product Name, Attribute 1, Attribute 2, Attribute 3, Tradeoff</li>
+                    <li>• <strong>Option B:</strong> Product Name, Attribute 1, Attribute 2, Attribute 3, Tradeoff</li>
+                    <li>• Each option generates completely different content</li>
+                    <li>• Use different values to create meaningful choice scenarios</li>
                   </ul>
                 </div>
                 <div>
-                  <strong>Step 3: Review Preview</strong>
+                  <strong>Step 3: Review Preview for Both Options</strong>
                   <ul className="ml-4 mt-1 space-y-1">
-                    <li>• Watch for complete sentences</li>
-                    <li>• Check proper grammar</li>
-                    <li>• Ensure consistent formatting</li>
-                    <li>• Verify natural flow</li>
+                    <li>• Compare Option A and Option B side by side</li>
+                    <li>• Check that content is meaningfully different</li>
+                    <li>• Watch for complete sentences in both options</li>
+                    <li>• Verify statistics counters show different values</li>
+                    <li>• Ensure consistent formatting across options</li>
                   </ul>
                 </div>
               </div>
@@ -347,6 +349,24 @@ const Documentation = () => {
               </div>
             </div>
 
+            <div className="bg-indigo-50 p-4 rounded">
+              <h4 className="font-semibold text-indigo-900 mb-2">Key Feature: Separate Option Generation</h4>
+              <div className="text-sm text-indigo-800 space-y-2">
+                <div>
+                  <strong>This tool now generates completely different content for Option A and Option B:</strong>
+                </div>
+                <ul className="ml-4 mt-1 space-y-1">
+                  <li>• <strong>Separate input fields:</strong> Each option has its own set of input fields</li>
+                  <li>• <strong>Different content:</strong> Option A and B will have different products, prices, features</li>
+                  <li>• <strong>Independent generation:</strong> Each option uses its own template data</li>
+                  <li>• <strong>Meaningful choices:</strong> Creates realistic decision scenarios</li>
+                </ul>
+                <div className="mt-2 p-2 bg-indigo-100 rounded">
+                  <strong>Example:</strong> Option A: "Premium Card (€49, 1% cashback)" vs Option B: "Classic Card (€0, 0.6% cashback)"
+                </div>
+              </div>
+            </div>
+
             <div className="bg-red-50 p-4 rounded">
               <h4 className="font-semibold text-red-900 mb-2">Best Practices</h4>
               <div className="text-sm text-red-800 space-y-2">
@@ -355,8 +375,11 @@ const Documentation = () => {
                   <ul className="ml-4 mt-1 space-y-1">
                     <li>• Use full words for speech (gigabytes, not GB)</li>
                     <li>• Spell out units (kilowatt-hour, not kWh)</li>
-                    <li>• Keep parallel structure</li>
+                    <li>• Keep parallel structure between options</li>
                     <li>• Use same template for both options</li>
+                    <li>• Create meaningful differences between Option A and B</li>
+                    <li>• Use different product names and values for each option</li>
+                    <li>• Ensure both options are realistic and comparable</li>
                   </ul>
                 </div>
                 <div>
@@ -366,6 +389,9 @@ const Documentation = () => {
                     <li>• Add extra sentences</li>
                     <li>• Use abbreviations</li>
                     <li>• Include subjective descriptions</li>
+                    <li>• Make options too similar (defeats the purpose)</li>
+                    <li>• Use identical values for both options</li>
+                    <li>• Create unrealistic or extreme differences</li>
                   </ul>
                 </div>
               </div>
@@ -375,8 +401,10 @@ const Documentation = () => {
               <h4 className="font-semibold text-emerald-900 mb-2">✅ When to Mark Complete</h4>
               <ul className="text-sm text-emerald-800 space-y-1">
                 <li>• You understand template structure</li>
-                <li>• You've generated text for new scenarios (if needed)</li>
-                <li>• All templates follow the 4-sentence guideline</li>
+                <li>• You've generated different content for Option A and Option B</li>
+                <li>• Both options follow the 4-sentence guideline</li>
+                <li>• Options are meaningfully different but comparable</li>
+                <li>• Statistics show appropriate differences between options</li>
               </ul>
             </div>
           </div>
