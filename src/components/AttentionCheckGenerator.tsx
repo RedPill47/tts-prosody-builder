@@ -3,7 +3,6 @@ import { Eye, CheckSquare, AlertTriangle, Download, Copy } from 'lucide-react';
 
 const AttentionCheckGenerator = () => {
   const [selectedScenario, setSelectedScenario] = useState('banking');
-  // Removed unused state variables
 
   const scenarios = {
     banking: {
@@ -288,7 +287,7 @@ Scenario: ${(scenarios as any)[scenario].name}
 ==========================================
 
 COMPREHENSION CHECKS (Post-Stimulus)
-${checks.comprehension.map((check: any, idx: number) => `
+${checks.comprehension.map((check: { question: string; correctAnswer: string; distractors: string[]; type: string; critical: boolean }, idx: number) => `
 ${idx + 1}. ${check.question}
    Correct Answer: ${check.correctAnswer}
    Distractors: ${check.distractors.join(', ')}
@@ -297,7 +296,7 @@ ${idx + 1}. ${check.question}
 `).join('')}
 
 ATTENTION CHECKS (Interspersed)
-${checks.attention.map((check: any, idx: number) => `
+${checks.attention.map((check: { question: string; correctAnswer: string; distractors: string[]; type: string; critical: boolean }, idx: number) => `
 ${idx + 1}. ${check.question}
    Correct Answer: ${check.correctAnswer}
    Options: ${check.distractors.join(', ')}
@@ -306,7 +305,7 @@ ${idx + 1}. ${check.question}
 `).join('')}
 
 MANIPULATION CHECKS (Post-Stimulus)
-${checks.manipulation.map((check: any, idx: number) => `
+${checks.manipulation.map((check: { question: string; scale: string; anchors: string[]; type: string; critical: boolean }, idx: number) => `
 ${idx + 1}. ${check.question}
    Scale: ${check.scale}
    Anchors: ${check.anchors.join(' → ')}
@@ -427,7 +426,7 @@ RECOMMENDED PLACEMENT
             </span>
           </div>
           <div className="space-y-3">
-            {currentScenario.checks.comprehension.map((check: any, idx: number) => (
+            {currentScenario.checks.comprehension.map((check: { question: string; correctAnswer: string; distractors: string[]; type: string; critical: boolean }, idx: number) => (
               <div key={idx} className="border rounded-lg p-4 bg-blue-50">
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex-1">
@@ -470,7 +469,7 @@ RECOMMENDED PLACEMENT
             </span>
           </div>
           <div className="space-y-3">
-            {currentScenario.checks.attention.map((check: any, idx: number) => (
+            {currentScenario.checks.attention.map((check: { question: string; correctAnswer: string; distractors: string[]; type: string; critical: boolean }, idx: number) => (
               <div key={idx} className="border rounded-lg p-4 bg-orange-50">
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex-1">
@@ -513,7 +512,7 @@ RECOMMENDED PLACEMENT
             </span>
           </div>
           <div className="space-y-3">
-            {currentScenario.checks.manipulation.map((check: any, idx: number) => (
+            {currentScenario.checks.manipulation.map((check: { question: string; scale: string; anchors: string[]; type: string; critical: boolean }, idx: number) => (
               <div key={idx} className="border rounded-lg p-4 bg-purple-50">
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex-1">

@@ -463,9 +463,9 @@ ${'='.repeat(80)}
 
 CHECKLIST REFERENCE
 
-${Object.entries(checklistCategories).map(([, category]) => `
+${Object.entries(checklistCategories).map(([, category]: [string, { icon: string; name: string; critical: boolean; checks: { id: string; criterion: string; method: string; target: string; critical: boolean }[] }]) => `
 ${category.icon} ${category.name} ${category.critical ? '[CRITICAL]' : '[OPTIONAL]'}
-${category.checks.map((check, idx) => `
+${category.checks.map((check: { id: string; criterion: string; method: string; target: string; critical: boolean }, idx: number) => `
 ${idx + 1}. ${check.criterion} ${check.critical ? '⚠️ CRITICAL' : ''}
    Method: ${check.method}
    Target: ${check.target}
