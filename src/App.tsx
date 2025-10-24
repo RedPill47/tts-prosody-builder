@@ -72,13 +72,13 @@ const UnifiedScenarioTool = () => {
   };
 
   const getNextPhase = (currentPhase: string) => {
-    const phaseOrder = ['home', 'text-review', 'numeric', 'structure', 'prosody', 'checks', 'fillers', 'quality', 'documentation'];
+    const phaseOrder = ['home', 'numeric', 'structure', 'text-review', 'prosody', 'checks', 'fillers', 'quality', 'documentation'];
     const currentIndex = phaseOrder.indexOf(currentPhase);
     return currentIndex < phaseOrder.length - 1 ? phaseOrder[currentIndex + 1] : null;
   };
 
   const getPreviousPhase = (currentPhase: string) => {
-    const phaseOrder = ['home', 'text-review', 'numeric', 'structure', 'prosody', 'checks', 'fillers', 'quality', 'documentation'];
+    const phaseOrder = ['home', 'numeric', 'structure', 'text-review', 'prosody', 'checks', 'fillers', 'quality', 'documentation'];
     const currentIndex = phaseOrder.indexOf(currentPhase);
     return currentIndex > 0 ? phaseOrder[currentIndex - 1] : null;
   };
@@ -92,13 +92,6 @@ const UnifiedScenarioTool = () => {
       description: 'Start here to understand the workflow and access all tools'
     },
     {
-      id: 'text-review',
-      name: 'Text Review & Refinement',
-      icon: FileText,
-      color: 'green',
-      description: 'Review scenarios for neutrality, balance, and cognitive load parity'
-    },
-    {
       id: 'numeric',
       name: 'Numeric Equivalence',
       icon: Calculator,
@@ -110,7 +103,14 @@ const UnifiedScenarioTool = () => {
       name: 'Sentence Structure',
       icon: Layout,
       color: 'orange',
-      description: 'Ensure consistent structural templates across all scenarios'
+      description: 'Generate new scenarios with consistent structural templates'
+    },
+    {
+      id: 'text-review',
+      name: 'Text Review & Refinement',
+      icon: FileText,
+      color: 'green',
+      description: 'Review and refine generated scenarios for neutrality and balance'
     },
     {
       id: 'prosody',

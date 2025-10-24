@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Layout, Copy, CheckCircle, AlertCircle, Download, Trash2, X } from 'lucide-react';
+import { Layout, Copy, CheckCircle, AlertCircle, Download, Trash2, X, FileText } from 'lucide-react';
 import { loadFromStorage, createAutoSave } from '../utils/persistence';
 
 const SentenceStructureStandardizer = () => {
@@ -314,6 +314,51 @@ const SentenceStructureStandardizer = () => {
     a.href = url;
     a.download = 'standardized_scenarios.txt';
     a.click();
+  };
+
+  const appendToRefinement = () => {
+    if (generatedScenarios.length === 0) {
+      alert('No scenarios to append. Please generate some scenarios first.');
+      return;
+    }
+
+    // Get existing scenarios from ScenarioRefinementTool
+    const savedData = loadFromStorage();
+    const existingScenarios = savedData.scenarioRefinement?.scenarios || [];
+    
+    // Convert generated scenarios to the format expected by ScenarioRefinementTool
+    const newScenarios = generatedScenarios.map((scenario: any, idx: number) => {
+      const nextId = Math.max(...existingScenarios.map((s: any) => s.id), 0) + idx + 1;
+      return {
+        id: nextId,
+        domain: scenario.domain.split(' / ')[0], // Extract just the domain name
+        context: `${scenario.domain} Selection`,
+        optionA: {
+          text: scenario.optionA,
+          attributes: {} // Will be analyzed by the refinement tool
+        },
+        optionB: {
+          text: scenario.optionB,
+          attributes: {} // Will be analyzed by the refinement tool
+        },
+        status: "draft",
+        notes: "Generated from Sentence Structure Tool"
+      };
+    });
+
+    // Update the scenarios in localStorage
+    const updatedScenarios = [...existingScenarios, ...newScenarios];
+    const updatedData = {
+      ...savedData,
+      scenarioRefinement: {
+        ...savedData.scenarioRefinement,
+        scenarios: updatedScenarios
+      }
+    };
+    
+    localStorage.setItem('tts-prosody-builder-data', JSON.stringify(updatedData));
+    
+    alert(`Successfully appended ${newScenarios.length} scenario(s) to the Text Review & Refinement tool. You can now navigate to that phase to review them.`);
   };
 
   return (
@@ -665,6 +710,13 @@ const SentenceStructureStandardizer = () => {
               Generated Scenarios ({generatedScenarios.length})
             </h2>
             <div className="flex gap-2">
+              <button
+                onClick={appendToRefinement}
+                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 flex items-center gap-2 text-sm"
+              >
+                <FileText size={16} />
+                Send to Review
+              </button>
               <button
                 onClick={clearAllScenarios}
                 className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 flex items-center gap-2 text-sm"
