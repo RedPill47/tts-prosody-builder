@@ -318,19 +318,17 @@ const SentenceStructureStandardizer = () => {
 
   const appendToRefinement = () => {
     if (generatedScenarios.length === 0) {
-      alert('No scenarios to append. Please generate some scenarios first.');
+      alert('No scenarios to send. Please generate some scenarios first.');
       return;
     }
 
-    // Get existing scenarios from ScenarioRefinementTool
+    // Get existing data from localStorage
     const savedData = loadFromStorage();
-    const existingScenarios = savedData.scenarioRefinement?.scenarios || [];
     
     // Convert generated scenarios to the format expected by ScenarioRefinementTool
     const newScenarios = generatedScenarios.map((scenario: any, idx: number) => {
-      const nextId = Math.max(...existingScenarios.map((s: any) => s.id), 0) + idx + 1;
       return {
-        id: nextId,
+        id: idx + 1, // Start from 1 for new scenarios
         domain: scenario.domain.split(' / ')[0], // Extract just the domain name
         context: `${scenario.domain} Selection`,
         optionA: {
@@ -346,19 +344,19 @@ const SentenceStructureStandardizer = () => {
       };
     });
 
-    // Update the scenarios in localStorage
-    const updatedScenarios = [...existingScenarios, ...newScenarios];
+    // Replace the scenarios in localStorage (don't append, replace)
     const updatedData = {
       ...savedData,
       scenarioRefinement: {
         ...savedData.scenarioRefinement,
-        scenarios: updatedScenarios
+        scenarios: newScenarios,
+        activeTab: "scenarios" // Set to scenarios tab
       }
     };
     
     localStorage.setItem('tts-prosody-builder-data', JSON.stringify(updatedData));
     
-    alert(`Successfully appended ${newScenarios.length} scenario(s) to the Text Review & Refinement tool. You can now navigate to that phase to review them.`);
+    alert(`Successfully replaced scenarios in the Text Review & Refinement tool with ${newScenarios.length} new scenario(s). You can now navigate to that phase to review them.`);
   };
 
   return (
@@ -715,7 +713,7 @@ const SentenceStructureStandardizer = () => {
                 className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 flex items-center gap-2 text-sm"
               >
                 <FileText size={16} />
-                Send to Review
+                Replace Review Scenarios
               </button>
               <button
                 onClick={clearAllScenarios}
