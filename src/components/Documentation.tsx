@@ -349,23 +349,6 @@ const Documentation = () => {
               </div>
             </div>
 
-            <div className="bg-indigo-50 p-4 rounded">
-              <h4 className="font-semibold text-indigo-900 mb-2">Key Feature: Separate Option Generation</h4>
-              <div className="text-sm text-indigo-800 space-y-2">
-                <div>
-                  <strong>This tool now generates completely different content for Option A and Option B:</strong>
-                </div>
-                <ul className="ml-4 mt-1 space-y-1">
-                  <li>• <strong>Separate input fields:</strong> Each option has its own set of input fields</li>
-                  <li>• <strong>Different content:</strong> Option A and B will have different products, prices, features</li>
-                  <li>• <strong>Independent generation:</strong> Each option uses its own template data</li>
-                  <li>• <strong>Meaningful choices:</strong> Creates realistic decision scenarios</li>
-                </ul>
-                <div className="mt-2 p-2 bg-indigo-100 rounded">
-                  <strong>Example:</strong> Option A: "Premium Card (€49, 1% cashback)" vs Option B: "Classic Card (€0, 0.6% cashback)"
-                </div>
-              </div>
-            </div>
 
             <div className="bg-red-50 p-4 rounded">
               <h4 className="font-semibold text-red-900 mb-2">Best Practices</h4>
