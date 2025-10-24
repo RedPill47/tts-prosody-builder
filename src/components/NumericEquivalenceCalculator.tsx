@@ -287,6 +287,43 @@ const NumericEquivalenceCalculator = () => {
     return (scenarios as any)[activeScenario][option].params;
   };
 
+  const generateDisplayText = (params: Record<string, number>, scenarioKey: string, option: 'optionA' | 'optionB'): string => {
+    const baseScenario = (scenarios as any)[scenarioKey];
+    const baseDisplay = baseScenario[option].display;
+
+    // For each scenario, generate appropriate display text based on current params
+    switch(scenarioKey) {
+      case 'banking': {
+        const result = params.annualFee - (params.avgSpending * params.cashbackRate / 100);
+        return `€${params.annualFee} - (€${params.avgSpending} × ${params.cashbackRate}%) = €${result.toFixed(2)} ${result >= 0 ? 'net annual cost' : 'net annual benefit'}`;
+      }
+      case 'insurance': {
+        const result = (params.monthlyPremium * 12) + (params.deductible * params.utilizationRate);
+        return `(€${params.monthlyPremium} × 12) + (€${params.deductible} × ${(params.utilizationRate * 100).toFixed(0)}%) = €${result.toFixed(2)} expected annual cost`;
+      }
+      case 'mobile': {
+        const result = params.monthlyCost / params.dataGB;
+        const extra = params.extra5GPlus ? ` (+ 5G Plus worth ~€${params.extra5GPlus})` : '';
+        return `€${params.monthlyCost} ÷ ${params.dataGB}GB = €${result.toFixed(3)} per GB${extra}`;
+      }
+      case 'energy': {
+        const rateKey = params.ratePerKWh !== undefined ? 'ratePerKWh' : 'avgRatePerKWh';
+        const rate = params[rateKey];
+        const result = (rate * params.usageKWh) + params.monthlyFee;
+        const volatility = params.volatility ? ` (±€${(params.usageKWh * params.volatility).toFixed(0)} volatility)` : '';
+        return `(€${rate.toFixed(2)}${params.avgRatePerKWh !== undefined ? ' avg' : ''} × ${params.usageKWh}) + €${params.monthlyFee} = €${result.toFixed(0)} ${params.avgRatePerKWh !== undefined ? 'average ' : ''}per month${volatility}`;
+      }
+      case 'subscription': {
+        const result = params.monthlyCost * params.months;
+        const extraInfo = params.contentValue ? ` (retain access to saved content worth ~€${params.contentValue})` :
+                         params.contentLoss ? ` + €${params.contentLoss} content loss = €${params.contentLoss} opportunity cost` : '';
+        return `€${params.monthlyCost} × ${params.months} = €${result.toFixed(2)}${extraInfo}`;
+      }
+      default:
+        return baseDisplay;
+    }
+  };
+
   const currentScenario = scenariosData && scenariosData[activeScenario] ? scenariosData[activeScenario] : (scenarios as any)[activeScenario];
   
   // Create a modified scenario with current parameters for analysis
@@ -415,7 +452,7 @@ const NumericEquivalenceCalculator = () => {
             <div className="bg-white rounded p-3 mb-3">
               <h4 className="font-semibold text-sm text-gray-700 mb-1">Calculation:</h4>
               <p className="text-xs text-gray-600 font-mono mb-2">{currentScenario.optionA.formula}</p>
-              <p className="text-sm text-gray-700">{currentScenario.optionA.display}</p>
+              <p className="text-sm text-gray-700">{generateDisplayText(getCurrentParams('optionA'), activeScenario, 'optionA')}</p>
             </div>
 
             <div className="bg-blue-900 text-white rounded p-3 text-center">
@@ -452,7 +489,7 @@ const NumericEquivalenceCalculator = () => {
             <div className="bg-white rounded p-3 mb-3">
               <h4 className="font-semibold text-sm text-gray-700 mb-1">Calculation:</h4>
               <p className="text-xs text-gray-600 font-mono mb-2">{currentScenario.optionB.formula}</p>
-              <p className="text-sm text-gray-700">{currentScenario.optionB.display}</p>
+              <p className="text-sm text-gray-700">{generateDisplayText(getCurrentParams('optionB'), activeScenario, 'optionB')}</p>
             </div>
 
             <div className="bg-green-900 text-white rounded p-3 text-center">
