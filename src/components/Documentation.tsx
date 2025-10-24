@@ -36,18 +36,316 @@ const Documentation = () => {
             <li>HCI students working on voice manipulation studies</li>
             <li>Anyone preparing controlled audio stimuli for behavioral experiments</li>
           </ul>
+
+          <h4 className="font-semibold text-gray-800 mt-6">Workflow Overview</h4>
+          <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-4 rounded-lg mt-4">
+            <p className="text-gray-700 mb-4">
+              The tool follows a logical 7-phase workflow designed to ensure your experimental scenarios are scientifically valid and ready for deployment:
+            </p>
+            
+            <div className="space-y-3">
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center text-sm font-bold">1</div>
+                <div>
+                  <h5 className="font-semibold text-gray-800">Numeric Equivalence</h5>
+                  <p className="text-sm text-gray-600">First, verify that your Option A and B are rationally equivalent (≤5% cost difference) to ensure fair comparison</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 bg-orange-600 text-white rounded-full flex items-center justify-center text-sm font-bold">2</div>
+                <div>
+                  <h5 className="font-semibold text-gray-800">Sentence Structure</h5>
+                  <p className="text-sm text-gray-600">Generate new scenarios using validated templates, ensuring consistent structure across options</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 bg-green-600 text-white rounded-full flex items-center justify-center text-sm font-bold">3</div>
+                <div>
+                  <h5 className="font-semibold text-gray-800">Text Review & Refinement</h5>
+                  <p className="text-sm text-gray-600">Review and refine generated scenarios for neutrality, balance, and cognitive load parity</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 bg-red-600 text-white rounded-full flex items-center justify-center text-sm font-bold">4</div>
+                <div>
+                  <h5 className="font-semibold text-gray-800">Prosody Annotation</h5>
+                  <p className="text-sm text-gray-600">Define prosodic parameters for TTS manipulation (authoritative, friendly, urgent, etc.)</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center text-sm font-bold">5</div>
+                <div>
+                  <h5 className="font-semibold text-gray-800">Attention Checks</h5>
+                  <p className="text-sm text-gray-600">Generate comprehension and manipulation check questions to ensure data quality</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 bg-yellow-600 text-white rounded-full flex items-center justify-center text-sm font-bold">6</div>
+                <div>
+                  <h5 className="font-semibold text-gray-800">Filler Prompts</h5>
+                  <p className="text-sm text-gray-600">Create neutral filler content between experimental conditions to prevent rehearsal</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 bg-teal-600 text-white rounded-full flex items-center justify-center text-sm font-bold">7</div>
+                <div>
+                  <h5 className="font-semibold text-gray-800">Quality Checklist</h5>
+                  <p className="text-sm text-gray-600">Final validation checklist before experiment deployment</p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="mt-4 p-3 bg-blue-100 rounded">
+              <p className="text-sm text-blue-800">
+                <strong>💡 Pro Tip:</strong> Use the "Send to Review" button in Phase 2 to automatically transfer your generated scenarios to Phase 3 for immediate review and refinement.
+              </p>
+            </div>
+          </div>
         </div>
       )
     },
     {
       id: 'phase1',
-      title: 'Phase 1: Text Review',
+      title: 'Phase 1: Numeric Equivalence',
+      icon: Calculator,
+      content: (
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold text-gray-800">Numeric Equivalence Validation</h3>
+          <p className="text-gray-700">
+            Verify that your Option A and Option B are rationally equivalent (≤5% cost difference) to ensure fair comparison between choices.
+          </p>
+          
+          <div className="space-y-4">
+            <div className="bg-blue-50 p-4 rounded">
+              <h4 className="font-semibold text-blue-900 mb-2">What You'll See</h4>
+              <ul className="text-sm text-blue-800 space-y-1">
+                <li>• Pre-defined scenario templates (Banking, Insurance, Mobile, Energy, Subscription)</li>
+                <li>• Calculated annual costs for Option A and Option B</li>
+                <li>• Real-world market data for comparison</li>
+                <li>• Editable parameters for customization</li>
+              </ul>
+            </div>
+
+            <div className="bg-green-50 p-4 rounded">
+              <h4 className="font-semibold text-green-900 mb-2">✅ Key Calculations</h4>
+              <div className="text-sm text-green-800 space-y-2">
+                <div>
+                  <strong>Banking:</strong> Annual fee - (spending × cashback rate)
+                </div>
+                <div>
+                  <strong>Insurance:</strong> (Monthly premium × 12) + (deductible × utilization rate)
+                </div>
+                <div>
+                  <strong>Mobile:</strong> Monthly cost × 12 + overage charges
+                </div>
+                <div>
+                  <strong>Energy:</strong> (Rate per kWh × usage) + monthly service fee
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-yellow-50 p-4 rounded">
+              <h4 className="font-semibold text-yellow-900 mb-2">How to Use</h4>
+              <div className="text-sm text-yellow-800 space-y-2">
+                <div>
+                  <strong>1. Select Scenario:</strong>
+                  <ul className="ml-4 mt-1 space-y-1">
+                    <li>• Choose from Banking, Insurance, Mobile, Energy, or Subscription</li>
+                    <li>• Review the calculation formula and parameters</li>
+                  </ul>
+                </div>
+                <div>
+                  <strong>2. Edit Parameters (Optional):</strong>
+                  <ul className="ml-4 mt-1 space-y-1">
+                    <li>• Click "Edit Parameters" to customize values</li>
+                    <li>• Adjust fees, rates, usage, or other variables</li>
+                    <li>• Click "Save Changes" to update calculations</li>
+                  </ul>
+                </div>
+                <div>
+                  <strong>3. Verify Equivalence:</strong>
+                  <ul className="ml-4 mt-1 space-y-1">
+                    <li>• Ensure cost difference is ≤5% between options</li>
+                    <li>• Review real-world market data for context</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-red-50 p-4 rounded">
+              <h4 className="font-semibold text-red-900 mb-2">⚠️ Common Issues</h4>
+              <div className="text-sm text-red-800 space-y-2">
+                <div>
+                  <strong>Large cost differences:</strong> One option significantly cheaper than the other
+                </div>
+                <div>
+                  <strong>Unrealistic parameters:</strong> Values that don't reflect real market conditions
+                </div>
+                <div>
+                  <strong>Missing variables:</strong> Not accounting for all relevant costs (fees, taxes, etc.)
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-purple-50 p-4 rounded">
+              <h4 className="font-semibold text-purple-900 mb-2">Real-World Validation</h4>
+              <div className="text-sm text-purple-800 space-y-2">
+                <div>
+                  <strong>Market Data:</strong> Compare your calculated costs with real-world examples
+                </div>
+                <div>
+                  <strong>Reasonableness Check:</strong> Ensure your scenarios reflect realistic market conditions
+                </div>
+                <div>
+                  <strong>Consumer Behavior:</strong> Consider how real consumers would evaluate these options
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-emerald-50 p-4 rounded">
+              <h4 className="font-semibold text-emerald-900 mb-2">✅ When to Mark Complete</h4>
+              <ul className="text-sm text-emerald-800 space-y-1">
+                <li>• Cost difference between options is ≤5%</li>
+                <li>• Parameters reflect realistic market conditions</li>
+                <li>• Real-world data supports your calculations</li>
+                <li>• Both options are rationally equivalent</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      )
+    },
+    {
+      id: 'phase2',
+      title: 'Phase 2: Sentence Structure',
+      icon: Layout,
+      content: (
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold text-gray-800">Sentence Structure Standardization</h3>
+          <p className="text-gray-700">
+            Generate new scenarios using validated templates to ensure consistent structure across all options and domains.
+          </p>
+          
+          <div className="space-y-4">
+            <div className="bg-blue-50 p-4 rounded">
+              <h4 className="font-semibold text-blue-900 mb-2">What You'll See</h4>
+              <ul className="text-sm text-blue-800 space-y-1">
+                <li>• Template selector for 5 domains (Banking, Insurance, Mobile, Energy, Subscription)</li>
+                <li>• Separate input fields for Option A and Option B</li>
+                <li>• Live preview of generated text for both options</li>
+                <li>• Statistics counters (sentences, words, characters, numbers)</li>
+                <li>• Generated scenarios collection with export options</li>
+              </ul>
+            </div>
+
+            <div className="bg-green-50 p-4 rounded">
+              <h4 className="font-semibold text-green-900 mb-2">✅ Key Features</h4>
+              <div className="text-sm text-green-800 space-y-2">
+                <div>
+                  <strong>Separate Option Generation:</strong> Each option gets its own input fields and generates different content
+                </div>
+                <div>
+                  <strong>Template Validation:</strong> Pre-validated structures ensure consistency across domains
+                </div>
+                <div>
+                  <strong>Real-time Preview:</strong> See generated text and statistics as you type
+                </div>
+                <div>
+                  <strong>Send to Review:</strong> Directly transfer generated scenarios to Phase 3 for refinement
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-yellow-50 p-4 rounded">
+              <h4 className="font-semibold text-yellow-900 mb-2">How to Use</h4>
+              <div className="text-sm text-yellow-800 space-y-2">
+                <div>
+                  <strong>1. Select Domain Template:</strong>
+                  <ul className="ml-4 mt-1 space-y-1">
+                    <li>• Choose from Banking, Insurance, Mobile, Energy, or Subscription</li>
+                    <li>• Review the template structure and guidelines</li>
+                  </ul>
+                </div>
+                <div>
+                  <strong>2. Fill Input Fields:</strong>
+                  <ul className="ml-4 mt-1 space-y-1">
+                    <li>• Complete separate fields for Option A and Option B</li>
+                    <li>• Use different product names and values for each option</li>
+                    <li>• Review live preview to ensure content is different</li>
+                  </ul>
+                </div>
+                <div>
+                  <strong>3. Generate & Review:</strong>
+                  <ul className="ml-4 mt-1 space-y-1">
+                    <li>• Click "Generate & Add to Collection"</li>
+                    <li>• Use "Send to Review" to transfer to Phase 3</li>
+                    <li>• Export scenarios for external review</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-red-50 p-4 rounded">
+              <h4 className="font-semibold text-red-900 mb-2">⚠️ Common Mistakes</h4>
+              <div className="text-sm text-red-800 space-y-2">
+                <div>
+                  <strong>Identical content:</strong> Using the same values for Option A and Option B
+                </div>
+                <div>
+                  <strong>Missing differences:</strong> Not creating meaningful but comparable differences
+                </div>
+                <div>
+                  <strong>Inconsistent structure:</strong> Not following the template guidelines
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-purple-50 p-4 rounded">
+              <h4 className="font-semibold text-purple-900 mb-2">Best Practices</h4>
+              <div className="text-sm text-purple-800 space-y-2">
+                <div>
+                  <strong>Create Meaningful Differences:</strong> Ensure options are genuinely different but comparable
+                </div>
+                <div>
+                  <strong>Use Different Product Names:</strong> Give each option a distinct identity
+                </div>
+                <div>
+                  <strong>Follow Template Guidelines:</strong> Use the provided attribute order and format
+                </div>
+                <div>
+                  <strong>Validate Statistics:</strong> Check that word counts and structure are balanced
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-emerald-50 p-4 rounded">
+              <h4 className="font-semibold text-emerald-900 mb-2">✅ When to Mark Complete</h4>
+              <ul className="text-sm text-emerald-800 space-y-1">
+                <li>• Generated scenarios have different content for Option A and Option B</li>
+                <li>• Both options follow the same structural template</li>
+                <li>• Statistics show balanced word counts and structure</li>
+                <li>• Scenarios are ready for review in Phase 3</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      )
+    },
+    {
+      id: 'phase3',
+      title: 'Phase 3: Text Review & Refinement',
       icon: FileText,
       content: (
         <div className="space-y-4">
           <h3 className="text-lg font-semibold text-gray-800">Text Review & Neutrality</h3>
           <p className="text-gray-700">
-            Analyze and balance the text of your scenarios to ensure structural parity and remove persuasive language.
+            Review and refine generated scenarios for neutrality, balance, and cognitive load parity to ensure fair comparison.
           </p>
           
           <div className="space-y-4">
@@ -58,6 +356,7 @@ const Documentation = () => {
                 <li>• Two side-by-side boxes (blue for Option A, green for Option B)</li>
                 <li>• Text content with statistics</li>
                 <li>• Balance check summary</li>
+                <li>• Edit and approval buttons</li>
               </ul>
             </div>
 
@@ -90,7 +389,7 @@ const Documentation = () => {
                   <strong>1. Review Each Scenario:</strong>
                   <ul className="ml-4 mt-1 space-y-1">
                     <li>• ✅ Green box = Options are balanced (≤10% difference)</li>
-                      <li>• ⚠️ Orange box = Options need adjustment (&gt;10% difference)</li>
+                    <li>• ⚠️ Orange box = Options need adjustment (&gt;10% difference)</li>
                   </ul>
                 </div>
                 <div>
@@ -99,6 +398,14 @@ const Documentation = () => {
                     <li>• Click "Edit" button below text box</li>
                     <li>• Make changes in textarea</li>
                     <li>• Click "Save" when done</li>
+                  </ul>
+                </div>
+                <div>
+                  <strong>3. Approve or Request Revision:</strong>
+                  <ul className="ml-4 mt-1 space-y-1">
+                    <li>• Click "Approve" for balanced scenarios</li>
+                    <li>• Click "Needs Revision" for scenarios requiring changes</li>
+                    <li>• Use "Reset to Draft" to start over</li>
                   </ul>
                 </div>
               </div>
@@ -142,252 +449,6 @@ const Documentation = () => {
                 <li>• No persuasive language detected</li>
                 <li>• All options have same sentence count</li>
                 <li>• Word/character differences are ≤10%</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      )
-    },
-    {
-      id: 'phase2',
-      title: 'Phase 2: Numeric Equivalence',
-      icon: Calculator,
-      content: (
-        <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-gray-800">Numeric Validation & Equivalence</h3>
-          <p className="text-gray-700">
-            Verify that Option A and Option B are rationally equivalent (cost difference ≤5%) so participants have no obvious "better deal."
-          </p>
-          
-          <div className="space-y-4">
-            <div className="bg-blue-50 p-4 rounded">
-              <h4 className="font-semibold text-blue-900 mb-2">What You'll See</h4>
-              <ul className="text-sm text-blue-800 space-y-1">
-                <li>• Scenario name</li>
-                <li>• Two calculation boxes (blue for A, green for B)</li>
-                <li>• Parameter breakdown</li>
-                <li>• Calculated values</li>
-                <li>• Difference analysis (green or red)</li>
-              </ul>
-            </div>
-
-            <div className="bg-green-50 p-4 rounded">
-              <h4 className="font-semibold text-green-900 mb-2">Domain-Specific Calculations</h4>
-              <div className="text-sm text-green-800 space-y-3">
-                <div>
-                  <strong>Banking (Credit Cards):</strong>
-                  <br />Formula: Annual Fee - (Avg Spending × Cashback%)
-                  <br />Example: €49 - (€3000 × 1%) = €19 net cost
-                </div>
-                <div>
-                  <strong>Insurance (Health Plans):</strong>
-                  <br />Formula: (Monthly Premium × 12) + (Deductible × Utilization Rate)
-                  <br />Example: (€35 × 12) + (€350 × 0.7) = €665
-                </div>
-                <div>
-                  <strong>Mobile (Data Plans):</strong>
-                  <br />Formula: Monthly Cost ÷ Data (GB)
-                  <br />Example: €15 ÷ 40 GB = €0.375/GB
-                </div>
-                <div>
-                  <strong>Energy (Electricity):</strong>
-                  <br />Formula: (Rate × Usage) + Monthly Fee
-                  <br />Example: (€0.27 × 300) + €5 = €86
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-yellow-50 p-4 rounded">
-              <h4 className="font-semibold text-yellow-900 mb-2">Understanding Results</h4>
-              <div className="text-sm text-yellow-800 space-y-2">
-                <div>
-                  <strong>✅ Green Box = "✓ Within 5% threshold"</strong>
-                  <ul className="ml-4 mt-1 space-y-1">
-                    <li>• Percentage difference is ≤5%</li>
-                    <li>• Options are rationally equivalent</li>
-                    <li>• Ready for experiment</li>
-                  </ul>
-                </div>
-                <div>
-                  <strong>❌ Red Box = "✗ Exceeds 5% threshold"</strong>
-                  <ul className="ml-4 mt-1 space-y-1">
-                      <li>• Percentage difference is &gt;5%</li>
-                    <li>• One option is clearly better</li>
-                    <li>• Needs parameter adjustment</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-purple-50 p-4 rounded">
-              <h4 className="font-semibold text-purple-900 mb-2">How to Adjust Values</h4>
-              <div className="text-sm text-purple-800 space-y-2">
-                <div>
-                    <strong>If scenarios show RED (&gt;5% difference):</strong>
-                  <ul className="ml-4 mt-1 space-y-1">
-                    <li>• Return to Phase 1 (use tabs)</li>
-                    <li>• Note which parameters need adjustment</li>
-                    <li>• Adjust values in the text to balance</li>
-                    <li>• Return to Phase 2 to verify</li>
-                  </ul>
-                </div>
-                <div>
-                  <strong>Adjustment strategies:</strong>
-                  <ul className="ml-4 mt-1 space-y-1">
-                    <li>• Banking: Increase/decrease fee OR adjust cashback rate</li>
-                    <li>• Insurance: Adjust monthly premium OR change deductible</li>
-                    <li>• Mobile: Change data allowance OR adjust monthly price</li>
-                    <li>• Energy: Modify rate slightly OR add/remove monthly fee</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-emerald-50 p-4 rounded">
-              <h4 className="font-semibold text-emerald-900 mb-2">✅ When to Mark Complete</h4>
-              <ul className="text-sm text-emerald-800 space-y-1">
-                <li>• All "50/50 scenarios" show green (≤5%)</li>
-                <li>• All values are realistic (within market norms)</li>
-                <li>• Trade-off structures are clear and balanced</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      )
-    },
-    {
-      id: 'phase3',
-      title: 'Phase 3: Sentence Structure',
-      icon: Layout,
-      content: (
-        <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-gray-800">Structure Templates</h3>
-          <p className="text-gray-700">
-            Use validated templates to generate new scenarios with consistent sentence structure across options.
-          </p>
-          
-          <div className="space-y-4">
-            <div className="bg-blue-50 p-4 rounded">
-              <h4 className="font-semibold text-blue-900 mb-2">What You'll See</h4>
-              <ul className="text-sm text-blue-800 space-y-1">
-                <li>• Template domain selector (Banking, Insurance, Mobile, Energy, Subscription)</li>
-                <li>• Template structure with placeholders [PRODUCT_NAME], [ATTR1], etc.</li>
-                <li>• Separate input fields for Option A and Option B</li>
-                <li>• Live preview of generated text for both options</li>
-                <li>• Statistics counters (sentences, words, characters, numbers)</li>
-                <li>• 4-sentence structure guidelines</li>
-              </ul>
-            </div>
-
-            <div className="bg-green-50 p-4 rounded">
-              <h4 className="font-semibold text-green-900 mb-2">Template Structure</h4>
-              <div className="text-sm text-green-800 space-y-2">
-                <div>
-                  <strong>Each template follows this pattern:</strong>
-                  <ol className="ml-4 mt-1 space-y-1">
-                    <li>1. Name the product - [PRODUCT_NAME]</li>
-                    <li>2. Present numeric attributes - [ATTR1], [ATTR2]</li>
-                    <li>3. State special feature - [ATTR3]</li>
-                    <li>4. Shared features - (built into template)</li>
-                  </ol>
-                </div>
-                <div>
-                  <strong>Example (Banking):</strong>
-                  <br />"The [PRODUCT_NAME] has a [ATTR1] annual fee, offers [ATTR2] cashback on all purchases, and includes [ATTR3]."
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-yellow-50 p-4 rounded">
-              <h4 className="font-semibold text-yellow-900 mb-2">How to Use</h4>
-              <div className="text-sm text-yellow-800 space-y-2">
-                <div>
-                  <strong>Step 1: Select Domain</strong>
-                  <ul className="ml-4 mt-1 space-y-1">
-                    <li>• Banking - For credit cards, loans, accounts</li>
-                    <li>• Insurance - For health, auto, property plans</li>
-                    <li>• Mobile - For phone plans, data packages</li>
-                  </ul>
-                </div>
-                <div>
-                  <strong>Step 2: Fill Input Fields for Both Options</strong>
-                  <ul className="ml-4 mt-1 space-y-1">
-                    <li>• <strong>Option A:</strong> Product Name, Attribute 1, Attribute 2, Attribute 3, Tradeoff</li>
-                    <li>• <strong>Option B:</strong> Product Name, Attribute 1, Attribute 2, Attribute 3, Tradeoff</li>
-                    <li>• Each option generates completely different content</li>
-                    <li>• Use different values to create meaningful choice scenarios</li>
-                  </ul>
-                </div>
-                <div>
-                  <strong>Step 3: Review Preview for Both Options</strong>
-                  <ul className="ml-4 mt-1 space-y-1">
-                    <li>• Compare Option A and Option B side by side</li>
-                    <li>• Check that content is meaningfully different</li>
-                    <li>• Watch for complete sentences in both options</li>
-                    <li>• Verify statistics counters show different values</li>
-                    <li>• Ensure consistent formatting across options</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-purple-50 p-4 rounded">
-              <h4 className="font-semibold text-purple-900 mb-2">4-Sentence Guidelines</h4>
-              <div className="text-sm text-purple-800 space-y-2">
-                <div>
-                  <strong>Sentence 1:</strong> Product identification - "The [name] has/costs/includes..."
-                </div>
-                <div>
-                  <strong>Sentence 2:</strong> Primary attributes - Numeric values presented
-                </div>
-                <div>
-                  <strong>Sentence 3:</strong> Shared features - "Both plans include..."
-                </div>
-                <div>
-                  <strong>Sentence 4:</strong> Closing question - "Which would you prefer?"
-                </div>
-              </div>
-            </div>
-
-
-            <div className="bg-red-50 p-4 rounded">
-              <h4 className="font-semibold text-red-900 mb-2">Best Practices</h4>
-              <div className="text-sm text-red-800 space-y-2">
-                <div>
-                  <strong>DO:</strong>
-                  <ul className="ml-4 mt-1 space-y-1">
-                    <li>• Use full words for speech (gigabytes, not GB)</li>
-                    <li>• Spell out units (kilowatt-hour, not kWh)</li>
-                    <li>• Keep parallel structure between options</li>
-                    <li>• Use same template for both options</li>
-                    <li>• Create meaningful differences between Option A and B</li>
-                    <li>• Use different product names and values for each option</li>
-                    <li>• Ensure both options are realistic and comparable</li>
-                  </ul>
-                </div>
-                <div>
-                  <strong>DON'T:</strong>
-                  <ul className="ml-4 mt-1 space-y-1">
-                    <li>• Mix templates between A and B</li>
-                    <li>• Add extra sentences</li>
-                    <li>• Use abbreviations</li>
-                    <li>• Include subjective descriptions</li>
-                    <li>• Make options too similar (defeats the purpose)</li>
-                    <li>• Use identical values for both options</li>
-                    <li>• Create unrealistic or extreme differences</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-emerald-50 p-4 rounded">
-              <h4 className="font-semibold text-emerald-900 mb-2">✅ When to Mark Complete</h4>
-              <ul className="text-sm text-emerald-800 space-y-1">
-                <li>• You understand template structure</li>
-                <li>• You've generated different content for Option A and Option B</li>
-                <li>• Both options follow the 4-sentence guideline</li>
-                <li>• Options are meaningfully different but comparable</li>
-                <li>• Statistics show appropriate differences between options</li>
               </ul>
             </div>
           </div>
