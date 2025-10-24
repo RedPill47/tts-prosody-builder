@@ -385,9 +385,9 @@ const UnifiedScenarioTool = () => {
           <div className="bg-green-50 border-l-4 border-green-400 p-4">
             <h4 className="font-semibold text-green-900 mb-2">🚀 Workflow</h4>
             <ol className="text-sm space-y-1 text-green-800 list-decimal list-inside">
-              <li>Text Review & Refinement</li>
               <li>Numeric Equivalence Validation</li>
               <li>Sentence Structure Templates</li>
+              <li>Text Review & Refinement</li>
               <li>Prosody Parameter Definition</li>
               <li>Attention Check Generation</li>
               <li>Filler Content Creation</li>
