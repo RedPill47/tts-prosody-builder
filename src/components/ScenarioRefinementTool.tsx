@@ -206,6 +206,12 @@ const ScenarioRefinementTool = () => {
     ));
   };
 
+  const clearAllScenarios = () => {
+    if (confirm('Are you sure you want to clear all scenarios? This action cannot be undone.')) {
+      setScenarios([]);
+    }
+  };
+
   return (
     <div className="w-full max-w-6xl mx-auto p-6 bg-gray-50">
       <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
@@ -240,6 +246,22 @@ const ScenarioRefinementTool = () => {
 
       {activeTab === "review" && (
         <div className="space-y-6">
+          {scenarios.length > 0 && (
+            <div className="bg-white rounded-lg shadow-md p-4 mb-6">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-gray-800">
+                  Scenarios ({scenarios.length})
+                </h3>
+                <button
+                  onClick={clearAllScenarios}
+                  className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 flex items-center gap-2 text-sm"
+                >
+                  <X size={16} />
+                  Clear All Scenarios
+                </button>
+              </div>
+            </div>
+          )}
           {scenarios.map(scenario => {
             const comparison = compareOptions(scenario.optionA, scenario.optionB);
             const isEditing = editingId === scenario.id;
